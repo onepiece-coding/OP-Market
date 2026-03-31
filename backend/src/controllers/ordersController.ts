@@ -125,6 +125,7 @@ export const createOrderCtrl = asyncHandler(
         approvalUrl: paypal.approvalUrl,
         providerOrderId: paypal.paypalOrderId,
       });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       await prismaClient.order.update({
         where: { id: order.id },

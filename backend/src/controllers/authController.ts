@@ -25,6 +25,7 @@ const TOKEN_CLEANUP_RETENTION_MS = 24 * 60 * 60 * 1000;
 const MAX_ACTIVE_REFRESH_SESSIONS = 5;
 
 const sanitizeUser = (user: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password, ...rest } = user;
   return rest;
 };

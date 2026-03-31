@@ -84,6 +84,7 @@ export const removeImage = async (publicId: string, client = cloudinary) => {
     return result;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
+    // eslint-disable-next-line preserve-caught-error
     throw new Error("Internal Server Error (cloudinary removeImage)");
   }
 };
@@ -97,6 +98,7 @@ export const removeMultipleImages = async (
     return result;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
+    // eslint-disable-next-line preserve-caught-error
     throw new Error("Internal Server Error (cloudinary removeMultipleImages)");
   }
 };

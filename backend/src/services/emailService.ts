@@ -107,10 +107,12 @@ export async function sendEmail(
         ? "Request timed out"
         : networkErr?.message;
     logger.error("Brevo network error", { message, stack: networkErr?.stack });
+    // eslint-disable-next-line preserve-caught-error
     throw new Error("Internal Server Error (email network)");
   }
 
   const contentType = res.headers.get("content-type") ?? "";
+  // eslint-disable-next-line no-useless-assignment
   let body: any = null;
 
   if (contentType.includes("application/json")) {

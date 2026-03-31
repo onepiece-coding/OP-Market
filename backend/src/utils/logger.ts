@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // single place for logging; currently uses console but can be replaced by pino/winston later
 export const logger = {
   info: (...args: unknown[]) => console.info(...args),

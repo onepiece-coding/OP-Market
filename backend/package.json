@@ -9,13 +9,20 @@
     "start": "node dist/src/server.js",
     "dev": "tsx watch src/server.ts",
     "prisma:generate": "npx prisma generate",
-    "prisma:push": "npx prisma db push"
+    "prisma:push": "npx prisma db push",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint && npm run format:check"
   },
   "keywords": [],
   "author": "Bouderya Mohamed",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
@@ -25,11 +32,15 @@
     "@types/multer": "^2.1.0",
     "@types/node": "^24.6.0",
     "@types/streamifier": "^0.1.2",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.10",
+    "prettier": "^3.8.1",
     "prisma": "^6.19.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.58.0"
   },
   "dependencies": {
     "@prisma/client": "^6.19.2",
