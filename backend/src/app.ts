@@ -23,13 +23,29 @@ if (typeof trustProxy !== "undefined") {
   app.set("trust proxy", 1);
 }
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": ["'self'", "data:", "blob:", "res.cloudinary.com"],
+        "connect-src": [
+          "'self'",
+          ALLOWED_ORIGIN ?? "'self'",
+          "res.cloudinary.com",
+          "ws:",
+          "wss:",
+        ],
+      },
+    },
+  }),
+);
 app.use(hpp());
 app.use(
   cors({
-    origin: ALLOWED_ORIGIN,
+    origin: ALLOWED_ORIGIN === "*" ? true : ALLOWED_ORIGIN,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-    credentials: true,
+    credentials: ALLOWED_ORIGIN !== "*",
     exposedHeaders: ["Content-Disposition"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   }),
@@ -43,6 +59,10 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 app.use("/api", rootRouter);
 

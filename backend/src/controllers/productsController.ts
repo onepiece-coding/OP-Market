@@ -3,6 +3,7 @@ import createError from "http-errors";
 import asyncHandler from "express-async-handler";
 import { prismaClient } from "../db/prisma.js";
 import { uploadImageBuffer, removeImage } from "../services/cloudinary.js";
+import logger from "../utils/logger.js";
 
 type MulterRequest = Request & {
   file?: Express.Multer.File;
@@ -125,7 +126,7 @@ export const updateProductCtrl = asyncHandler(
         try {
           await removeImage(existingProduct.imageKey);
         } catch (err) {
-          console.error("Failed to remove old product image", err);
+          logger.error("Failed to remove old product image", err);
         }
       }
 
@@ -135,7 +136,7 @@ export const updateProductCtrl = asyncHandler(
         try {
           await removeImage(uploadedImageKey);
         } catch (cleanupErr) {
-          console.error("Failed to cleanup newly uploaded image", cleanupErr);
+          logger.error("Failed to cleanup newly uploaded image", cleanupErr);
         }
       }
       throw error;
@@ -170,7 +171,7 @@ export const deleteProductCtrl = asyncHandler(
       try {
         await removeImage(product.imageKey);
       } catch (err) {
-        console.error("Failed to remove product image from Cloudinary", err);
+        logger.error("Failed to remove product image from Cloudinary", err);
       }
     }
 
@@ -189,16 +190,32 @@ export const deleteProductCtrl = asyncHandler(
  */
 export const listProductsCtrl = asyncHandler(
   async (req: Request, res: Response) => {
+    const { page: pageParam, limit: limitParam } = req.query as {
+      page?: string;
+      limit?: string;
+    };
+
+    const page = Math.max(parseInt(String(pageParam), 10) || 1, 1);
+    const limit = Math.max(parseInt(String(limitParam), 10) || 5, 1);
+    const skip = (page - 1) * limit;
+
     const count = await prismaClient.product.count();
 
     const products = await prismaClient.product.findMany({
-      skip: Number(req.query.skip ?? 0),
-      take: 5,
+      skip,
+      take: limit,
     });
 
+    const pageCount = Math.ceil(count / limit);
+
     res.status(200).json({
-      count,
       data: products,
+      pagination: {
+        current: page,
+        limit,
+        totalPages: pageCount,
+        results: count,
+      },
     });
   },
 );
@@ -233,6 +250,15 @@ export const getProductByIdCtrl = asyncHandler(
  */
 export const searchProductsCtrl = asyncHandler(
   async (req: Request, res: Response) => {
+    const { page: pageParam, limit: limitParam } = req.query as {
+      page?: string;
+      limit?: string;
+    };
+
+    const page = Math.max(parseInt(String(pageParam), 10) || 1, 1);
+    const limit = Math.max(parseInt(String(limitParam), 10) || 5, 1);
+    const skip = (page - 1) * limit;
+
     const q = String(req.query.q ?? "").trim();
 
     const where = q
@@ -245,12 +271,26 @@ export const searchProductsCtrl = asyncHandler(
         }
       : {};
 
-    const products = await prismaClient.product.findMany({
+    const total = await prismaClient.product.count({
       where,
-      skip: Number(req.query.skip ?? 0),
-      take: 5,
     });
 
-    res.status(200).json(products);
+    const products = await prismaClient.product.findMany({
+      where,
+      skip,
+      take: limit,
+    });
+
+    const pageCount = Math.ceil(total / limit);
+
+    res.status(200).json({
+      data: products,
+      pagination: {
+        current: page,
+        limit,
+        totalPages: pageCount,
+        results: total,
+      },
+    });
   },
 );

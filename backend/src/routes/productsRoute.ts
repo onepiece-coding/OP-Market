@@ -18,11 +18,9 @@ import { singleImage } from "../middlewares/photoUpload.js";
 
 const productsRoutes: Router = Router();
 
-productsRoutes.use(authMiddleware);
-
 productsRoutes
   .route("/")
-  .all(adminMiddleware)
+  .all(authMiddleware, adminMiddleware)
   .post(singleImage("image"), validate(createProductSchema), createProductCtrl)
   .get(listProductsCtrl);
 
@@ -30,7 +28,7 @@ productsRoutes.get("/search", searchProductsCtrl);
 
 productsRoutes
   .route("/:id")
-  .all(adminMiddleware)
+  .all(authMiddleware, adminMiddleware)
   .get(getProductByIdCtrl)
   .put(singleImage("image"), validate(updateProductSchema), updateProductCtrl)
   .delete(deleteProductCtrl);

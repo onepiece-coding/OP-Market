@@ -131,13 +131,33 @@ export const updateUserCtrl = asyncHandler(
  */
 export const listUsersCtrl = asyncHandler(
   async (req: Request, res: Response) => {
+    const { page: pageParam, limit: limitParam } = req.query as {
+      page?: string;
+      limit?: string;
+    };
+
+    const page = Math.max(parseInt(String(pageParam), 10) || 1, 1);
+    const limit = Math.max(parseInt(String(limitParam), 10) || 5, 1);
+    const skip = (page - 1) * limit;
+
     const users = await prismaClient.user.findMany({
-      skip: Number(req.query.skip ?? 0),
-      take: 5,
+      skip,
+      take: limit,
       select: publicUserSelect,
     });
 
-    res.status(200).json(users);
+    const total = await prismaClient.user.count();
+    const pageCount = Math.ceil(total / limit);
+
+    res.status(200).json({
+      data: users,
+      pagination: {
+        current: page,
+        limit,
+        totalPages: pageCount,
+        results: total,
+      },
+    });
   },
 );
 

@@ -17,7 +17,6 @@ export const validate =
 
     const errors = formatZodError(result.error);
     const err = createError(400, "Validation failed");
-    // @ts-ignore
     err.errors = errors;
     return next(err);
   };

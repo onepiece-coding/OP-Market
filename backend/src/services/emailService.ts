@@ -14,6 +14,13 @@ type EmailPayload = {
   from?: string;
 };
 
+type EmailMockResponse = {
+  ok: true;
+  message: string;
+  to: string;
+  subject: string;
+};
+
 const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
 function getConfig() {
@@ -50,19 +57,22 @@ async function timeoutFetch(
 export async function sendEmail(
   { to, subject, html, from }: EmailPayload,
   fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
-): Promise<any> {
+): Promise<unknown> {
   const cfg = getConfig();
 
   if (cfg.NODE_ENV === "test" && !cfg.BREVO_API_KEY) {
     logger.info(
       "sendEmail: test env without BREVO_API_KEY — returning mock response",
     );
-    return {
+
+    const mockResponse: EmailMockResponse = {
       ok: true,
       message: "Email send mocked in test env",
       to,
       subject,
     };
+
+    return mockResponse;
   }
 
   if (!cfg.BREVO_API_KEY) {
@@ -101,31 +111,44 @@ export async function sendEmail(
       cfg.DEFAULT_TIMEOUT_MS,
       fetchFn,
     );
-  } catch (networkErr: any) {
+  } catch (networkErr: unknown) {
+    const err =
+      networkErr instanceof Error
+        ? networkErr
+        : new Error("Unknown network error");
     const message =
-      networkErr?.name === "AbortError"
-        ? "Request timed out"
-        : networkErr?.message;
-    logger.error("Brevo network error", { message, stack: networkErr?.stack });
-    // eslint-disable-next-line preserve-caught-error
-    throw new Error("Internal Server Error (email network)");
+      err.name === "AbortError" ? "Request timed out" : err.message;
+
+    logger.error("Brevo network error", {
+      message,
+      stack: err.stack,
+    });
+
+    const error = new Error("Internal Server Error (email network)");
+    error.cause = err;
+    throw error;
   }
 
   const contentType = res.headers.get("content-type") ?? "";
-  // eslint-disable-next-line no-useless-assignment
-  let body: any = null;
+  let responseBody: unknown;
 
   if (contentType.includes("application/json")) {
     try {
-      body = await res.json();
-    } catch {
-      body = null;
+      responseBody = await res.json();
+    } catch (parseErr: unknown) {
+      responseBody = null;
+      logger.warn("Brevo JSON parse failed", {
+        error: parseErr instanceof Error ? parseErr.message : String(parseErr),
+      });
     }
   } else {
     try {
-      body = await res.text();
-    } catch {
-      body = null;
+      responseBody = await res.text();
+    } catch (readErr: unknown) {
+      responseBody = null;
+      logger.warn("Brevo text read failed", {
+        error: readErr instanceof Error ? readErr.message : String(readErr),
+      });
     }
   }
 
@@ -133,13 +156,15 @@ export async function sendEmail(
     logger.error("Brevo API error", {
       status: res.status,
       statusText: res.statusText,
-      body,
+      body: responseBody,
     });
-    throw new Error("Internal Server Error (email send)");
+    const error = new Error("Internal Server Error (email send)");
+    error.cause = new Error(`Brevo API error: ${res.status} ${res.statusText}`);
+    throw error;
   }
 
-  logger.info("Brevo send success", { status: res.status, body });
-  return body;
+  logger.info("Brevo send success", { status: res.status, body: responseBody });
+  return responseBody;
 }
 
 export default sendEmail;

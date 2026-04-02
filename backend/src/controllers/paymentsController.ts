@@ -8,7 +8,10 @@ import {
 } from "../services/paypalService.js";
 
 /**
- * POST /api/payments/paypal/:id/retry
+ * @desc   Retry Paypal Payement
+ * @route  api/payments/paypal/:id/retry
+ * @method POST
+ * @access private
  */
 export const retryPayPalPaymentCtrl = asyncHandler(
   async (req: Request, res: Response) => {
@@ -77,7 +80,10 @@ export const retryPayPalPaymentCtrl = asyncHandler(
 );
 
 /**
- * POST /api/payments/paypal/:id/capture
+ * @desc   Capture Paypal Payement
+ * @route  api/payments/paypal/:id/capture
+ * @method POST
+ * @access private
  */
 export const capturePayPalPaymentCtrl = asyncHandler(
   async (req: Request, res: Response) => {
@@ -123,7 +129,7 @@ export const capturePayPalPaymentCtrl = asyncHandler(
       throw createError(400, "Missing PayPal order id");
     }
 
-    let capture: any;
+    let capture: Record<string, unknown>;
     try {
       capture = await capturePayPalOrder(order.paymentProviderId);
     } catch {

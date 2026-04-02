@@ -70,10 +70,13 @@ export async function createPayPalOrder(amount: number) {
     throw new Error(`PayPal create order failed: ${res.status} ${text}`);
   }
 
-  const data = await res.json();
+  const data = (await res.json()) as {
+    id: string;
+    links?: Array<{ rel: string; href: string }>;
+  };
 
   const approvalUrl =
-    data.links?.find((l: any) => l.rel === "approve")?.href ?? null;
+    data.links?.find((l) => l.rel === "approve")?.href ?? null;
 
   return {
     paypalOrderId: data.id as string,

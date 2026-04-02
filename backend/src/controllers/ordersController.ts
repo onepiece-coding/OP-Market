@@ -49,6 +49,32 @@ export const createOrderCtrl = asyncHandler(
         throw createError(400, "Cart is empty");
       }
 
+      const productIds = [...new Set(cartItems.map((item) => item.productId))];
+
+      const existingProducts = await tx.product.findMany({
+        where: {
+          id: {
+            in: productIds,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const existingProductIds = new Set(existingProducts.map((p) => p.id));
+
+      const missingProductIds = productIds.filter(
+        (id) => !existingProductIds.has(id),
+      );
+
+      if (missingProductIds.length > 0) {
+        throw createError(
+          400,
+          `Some products in your cart no longer exist: ${missingProductIds.join(", ")}`,
+        );
+      }
+
       if (!req.user!.defaultShippingAddress) {
         throw createError(400, "No default shipping address set");
       }
@@ -125,8 +151,7 @@ export const createOrderCtrl = asyncHandler(
         approvalUrl: paypal.approvalUrl,
         providerOrderId: paypal.paypalOrderId,
       });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch (_error) {
       await prismaClient.order.update({
         where: { id: order.id },
         data: {
@@ -238,7 +263,16 @@ export const getOrderByIdCtrl = asyncHandler(
  */
 export const listAllOrdersCtrl = asyncHandler(
   async (req: Request, res: Response) => {
-    const rawStatus = req.query.status;
+    const {
+      page: pageParam,
+      limit: limitParam,
+      status: rawStatus,
+    } = req.query as { [key: string]: unknown };
+
+    const page = Math.max(parseInt(String(pageParam), 10) || 1, 1);
+    const limit = Math.max(parseInt(String(limitParam), 10) || 5, 1);
+    const skip = (page - 1) * limit;
+
     const status =
       typeof rawStatus === "string" && isOrderStatus(rawStatus)
         ? rawStatus
@@ -246,13 +280,25 @@ export const listAllOrdersCtrl = asyncHandler(
 
     const whereClause: OrderWhere = status ? { status } : {};
 
+    const total = await prismaClient.order.count({ where: whereClause });
+
     const orders = await prismaClient.order.findMany({
       where: whereClause,
-      skip: Number(req.query.skip ?? 0),
-      take: 5,
+      skip,
+      take: limit,
     });
 
-    res.status(200).json(orders);
+    const pageCount = Math.ceil(total / limit);
+
+    res.status(200).json({
+      data: orders,
+      pagination: {
+        current: page,
+        limit,
+        totalPages: pageCount,
+        results: total,
+      },
+    });
   },
 );
 
@@ -300,7 +346,17 @@ export const changeStatusCtrl = asyncHandler(
 export const ListUserOrdersCtrl = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = Number(req.params.id);
-    const rawStatus = req.query.status;
+
+    const {
+      page: pageParam,
+      limit: limitParam,
+      status: rawStatus,
+    } = req.query as { [key: string]: unknown };
+
+    const page = Math.max(parseInt(String(pageParam), 10) || 1, 1);
+    const limit = Math.max(parseInt(String(limitParam), 10) || 5, 1);
+    const skip = (page - 1) * limit;
+
     const status =
       typeof rawStatus === "string" && isOrderStatus(rawStatus)
         ? rawStatus
@@ -311,12 +367,24 @@ export const ListUserOrdersCtrl = asyncHandler(
       ...(status ? { status } : {}),
     };
 
+    const total = await prismaClient.order.count({ where: whereClause });
+
     const orders = await prismaClient.order.findMany({
       where: whereClause,
-      skip: Number(req.query.skip ?? 0),
-      take: 5,
+      skip,
+      take: limit,
     });
 
-    res.status(200).json(orders);
+    const pageCount = Math.ceil(total / limit);
+
+    res.status(200).json({
+      data: orders,
+      pagination: {
+        current: page,
+        limit,
+        totalPages: pageCount,
+        results: total,
+      },
+    });
   },
 );

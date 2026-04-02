@@ -1,6 +1,7 @@
-import type { User } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import { publicUserSelect } from "../utils/publicUserSelect.js";
 
-type PublicUser = Omit<User, "password">;
+type PublicUser = Prisma.UserGetPayload<{ select: typeof publicUserSelect }>;
 
 declare global {
   namespace Express {
