@@ -42,6 +42,7 @@ Note.md
 .env
 .env.*
 !.env.example
+!.env.test.example
 
 # Testing
 coverage/

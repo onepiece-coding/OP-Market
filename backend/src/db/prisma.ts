@@ -9,7 +9,7 @@ type AddressForFormatted = {
 };
 
 export const prismaClient = new PrismaClient({
-  log: ["query"],
+  log: process.env.NODE_ENV === "test" ? [] : ["query"],
 }).$extends({
   result: {
     address: {
