@@ -7,6 +7,7 @@ export default defineConfig({
     setupFiles: ["./tests/setup.integration.ts"],
     include: ["tests/integration/**/*.test.ts"],
     exclude: ["dist/**", "node_modules/**", "prisma/**", "src/generated/**"],
+    fileParallelism: false,
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],
