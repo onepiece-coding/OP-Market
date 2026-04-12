@@ -1,0 +1,78 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: devuser
+          POSTGRES_PASSWORD: devpass
+          POSTGRES_DB: op_market_test
+        options: >-
+          --health-cmd="pg_isready -U devuser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://devuser:devpass@localhost:5432/op_market_test
+      SHADOW_DATABASE_URL: postgresql://devuser:devpass@localhost:5432/postgres?schema=public
+      JWT_SECRET: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      REFRESH_TOKEN_SECRET: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      CLIENT_DOMAIN: http://localhost:4400
+      ACCESS_TOKEN_EXPIRES_IN: 15m
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+      EMAIL_TIMEOUT_MS: 10000
+      APP_NAME: op-market-test
+      BREVO_API_KEY: dummy
+      FROM_EMAIL: test@example.com
+      CLOUDINARY_CLOUD_NAME: dummy
+      CLOUDINARY_API_KEY: dummy
+      CLOUDINARY_API_SECRET: dummy
+      PAYPAL_CLIENT_ID: dummy
+      PAYPAL_CLIENT_SECRET: dummy
+      PAYPAL_ENV: sandbox
+      PAYPAL_CURRENCY: USD
+      TRUST_PROXY: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Push schema
+        run: npx prisma db push
+
+      - name: Lint + typecheck + format check
+        run: npm run check
+
+      - name: Run tests
+        run: npm run test
