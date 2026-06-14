@@ -271,7 +271,7 @@ describe("paymentsController", () => {
 
       await retryPayPalPaymentCtrl(req, res);
 
-      expect(mocks.createPayPalOrder).toHaveBeenCalledWith(50);
+      expect(mocks.createPayPalOrder).toHaveBeenCalledWith(50, 10);
       expect(mocks.prismaClient.order.update).toHaveBeenCalledWith({
         where: { id: 10 },
         data: {

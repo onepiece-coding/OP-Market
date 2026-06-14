@@ -28,7 +28,7 @@ describe("error middleware", () => {
   describe("notFound", () => {
     it('creates an error with "Not Found - /path"', () => {
       const req = {
-        originalUrl: "/api/unknown",
+        originalUrl: "/api/v1/unknown",
       } as Request;
 
       const res = {} as Response;
@@ -40,7 +40,7 @@ describe("error middleware", () => {
 
       const err = next.mock.calls[0][0] as TestError;
       expect(err).toBeInstanceOf(Error);
-      expect(err.message).toBe("Not Found - /api/unknown");
+      expect(err.message).toBe("Not Found - /api/v1/unknown");
     });
 
     it("attaches statusCode = 404", () => {

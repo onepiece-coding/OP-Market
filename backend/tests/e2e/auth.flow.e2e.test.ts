@@ -28,7 +28,9 @@ describe("Auth E2E flow", () => {
       password: "password123",
     };
 
-    const signupRes = await agent.post("/api/auth/signup").send(signupPayload);
+    const signupRes = await agent
+      .post("/api/v1/auth/signup")
+      .send(signupPayload);
 
     expect(signupRes.status).toBe(201);
     expect(signupRes.body.verificationEmailSent).toBe(true);
@@ -73,7 +75,7 @@ describe("Auth E2E flow", () => {
     });
 
     const verifyRes = await agent.get(
-      `/api/auth/verify-email?token=${encodeURIComponent(rawToken)}`,
+      `/api/v1/auth/verify-email?token=${encodeURIComponent(rawToken)}`,
     );
 
     expect(verifyRes.status).toBe(200);
@@ -99,7 +101,7 @@ describe("Auth E2E flow", () => {
     });
     expect(tokensAfterVerify.length).toBeGreaterThan(0);
 
-    const loginRes = await agent.post("/api/auth/login").send({
+    const loginRes = await agent.post("/api/v1/auth/login").send({
       email: signupPayload.email,
       password: signupPayload.password,
     });
@@ -111,7 +113,7 @@ describe("Auth E2E flow", () => {
       true,
     );
 
-    const meRes = await agent.get("/api/auth/me");
+    const meRes = await agent.get("/api/v1/auth/me");
 
     expect(meRes.status).toBe(200);
     expect(meRes.body.email).toBe(signupPayload.email);

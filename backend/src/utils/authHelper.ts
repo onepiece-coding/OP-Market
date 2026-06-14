@@ -231,7 +231,7 @@ export const sendVerificationEmail = async (
   rawToken: string,
 ) => {
   const host = req.get("host") ?? "localhost:3000";
-  const verificationUrl = `${req.protocol}://${host}/api/auth/verify-email?token=${encodeURIComponent(rawToken)}`;
+  const verificationUrl = `${req.protocol}://${host}/api/v1/auth/verify-email?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,
@@ -252,7 +252,7 @@ export const sendPasswordResetEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:4400").replace(
+  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:3000").replace(
     /\/$/,
     "",
   );

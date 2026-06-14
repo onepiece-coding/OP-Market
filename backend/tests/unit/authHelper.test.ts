@@ -47,7 +47,7 @@ async function loadAuthHelper() {
   }));
 
   vi.doMock(secretsPath, () => ({
-    ALLOWED_ORIGIN: "http://localhost:4400/",
+    ALLOWED_ORIGIN: "http://localhost:3000/",
   }));
 
   const mod = await import(authHelperPath);
@@ -170,7 +170,7 @@ describe("authHelper", () => {
         to: "mina@example.com",
         subject: "Verify your email",
         html: expect.stringContaining(
-          "https://example.com/api/auth/verify-email?token=token%20123",
+          "https://example.com/api/v1/auth/verify-email?token=token%20123",
         ),
       }),
     );
@@ -190,7 +190,7 @@ describe("authHelper", () => {
         to: "mina@example.com",
         subject: "Reset your password",
         html: expect.stringContaining(
-          "http://localhost:4400/reset-password?token=reset%2Ftoken",
+          "http://localhost:3000/reset-password?token=reset%2Ftoken",
         ),
       }),
     );

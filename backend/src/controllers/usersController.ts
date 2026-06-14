@@ -12,7 +12,7 @@ type UpdateUserData = {
 
 /**
  * @desc   Add new address
- * @route  api/users/address
+ * @route  api/v1/users/address
  * @method POST
  * @access private
  */
@@ -31,7 +31,7 @@ export const addAddressCtrl = asyncHandler(
 
 /**
  * @desc   List all addresses
- * @route  api/users/address
+ * @route  api/v1/users/address
  * @method GET
  * @access private
  */
@@ -47,7 +47,7 @@ export const listAddressesCtrl = asyncHandler(
 
 /**
  * @desc   Delete an address
- * @route  api/users/address/:id
+ * @route  api/v1/users/address/:id
  * @method DELETE
  * @access private
  */
@@ -77,7 +77,7 @@ export const deleteAddressCtrl = asyncHandler(
 
 /**
  * @desc   Update User
- * @route  api/users
+ * @route  api/v1/users
  * @method PUT
  * @access private
  */
@@ -125,7 +125,7 @@ export const updateUserCtrl = asyncHandler(
 
 /**
  * @desc   List All Users
- * @route  api/users
+ * @route  api/v1/users
  * @method get
  * @access private(admin only)
  */
@@ -163,7 +163,7 @@ export const listUsersCtrl = asyncHandler(
 
 /**
  * @desc   Get User By Id
- * @route  api/users/:id
+ * @route  api/v1/users/:id
  * @method get
  * @access private(admin only)
  */
@@ -190,7 +190,7 @@ export const getUserByIdCtrl = asyncHandler(
 
 /**
  * @desc   Change User Role
- * @route  api/users/:id/role
+ * @route  api/v1/users/:id/role
  * @method put
  * @access private(admin only)
  */

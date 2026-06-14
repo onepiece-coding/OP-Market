@@ -20,14 +20,14 @@ describe("COD checkout E2E flow", () => {
       tags: "e2e,test",
     });
 
-    const loginRes = await agent.post("/api/auth/login").send({
+    const loginRes = await agent.post("/api/v1/auth/login").send({
       email: user.email,
       password: rawPassword,
     });
 
     expect(loginRes.status).toBe(200);
 
-    const addAddressRes = await agent.post("/api/users/address").send({
+    const addAddressRes = await agent.post("/api/v1/users/address").send({
       lineOne: "123 E2E Street",
       lineTwo: "Apt 9",
       city: "Casablanca",
@@ -41,7 +41,7 @@ describe("COD checkout E2E flow", () => {
 
     const addressId = addAddressRes.body.id;
 
-    const updateUserRes = await agent.put("/api/users").send({
+    const updateUserRes = await agent.put("/api/v1/users").send({
       defaultShippingAddress: addressId,
     });
 
@@ -53,7 +53,7 @@ describe("COD checkout E2E flow", () => {
     });
     expect(updatedUser?.defaultShippingAddress).toBe(addressId);
 
-    const addCartRes = await agent.post("/api/cart").send({
+    const addCartRes = await agent.post("/api/v1/cart").send({
       productId: product.id,
       quantity: 2,
     });
@@ -62,7 +62,7 @@ describe("COD checkout E2E flow", () => {
     expect(addCartRes.body.productId).toBe(product.id);
     expect(addCartRes.body.quantity).toBe(2);
 
-    const getCartRes = await agent.get("/api/cart");
+    const getCartRes = await agent.get("/api/v1/cart");
 
     expect(getCartRes.status).toBe(200);
     expect(getCartRes.body).toHaveLength(1);
@@ -71,7 +71,7 @@ describe("COD checkout E2E flow", () => {
     expect(getCartRes.body[0].product).toBeTruthy();
     expect(getCartRes.body[0].product.name).toBe("E2E Product");
 
-    const createOrderRes = await agent.post("/api/orders").send({
+    const createOrderRes = await agent.post("/api/v1/orders").send({
       paymentMethod: "CASH_ON_DELIVERY",
     });
 
@@ -111,7 +111,7 @@ describe("COD checkout E2E flow", () => {
     });
     expect(cartAfterOrder).toHaveLength(0);
 
-    const listOrdersRes = await agent.get("/api/orders");
+    const listOrdersRes = await agent.get("/api/v1/orders");
 
     expect(listOrdersRes.status).toBe(200);
     expect(Array.isArray(listOrdersRes.body)).toBe(true);
@@ -119,7 +119,7 @@ describe("COD checkout E2E flow", () => {
     expect(listOrdersRes.body[0].id).toBe(orderId);
     expect(listOrdersRes.body[0].status).toBe("PENDING");
 
-    const cancelOrderRes = await agent.put(`/api/orders/${orderId}/cancel`);
+    const cancelOrderRes = await agent.put(`/api/v1/orders/${orderId}/cancel`);
 
     expect(cancelOrderRes.status).toBe(200);
     expect(cancelOrderRes.body.id).toBe(orderId);

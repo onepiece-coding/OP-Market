@@ -29,7 +29,7 @@ import {
 
 /**
  * @desc   SignUp a new user
- * @route  api/auth/singup
+ * @route  api/v1/auth/singup
  * @method POST
  * @access public
  */
@@ -82,7 +82,7 @@ export const signUpCtrl = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @desc   Login a user
- * @route  api/auth/login
+ * @route  api/v1/auth/login
  * @method POST
  * @access public
  */
@@ -112,7 +112,7 @@ export const loginCtrl = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @desc   Verify email
- * @route  GET /api/auth/verify-email?token=...
+ * @route  GET /api/v1/auth/verify-email?token=...
  * @access public
  */
 export const verifyEmailCtrl = asyncHandler(
@@ -175,7 +175,7 @@ export const verifyEmailCtrl = asyncHandler(
 
 /**
  * @desc   Resend verification email
- * @route  POST /api/auth/resend-verification
+ * @route  POST /api/v1/auth/resend-verification
  * @access public
  */
 export const resendVerificationCtrl = asyncHandler(
@@ -214,7 +214,7 @@ export const resendVerificationCtrl = asyncHandler(
 
 /**
  * @desc   Forgot password
- * @route  POST /api/auth/forgot-password
+ * @route  POST /api/v1/auth/forgot-password
  * @access public
  */
 export const forgotPasswordCtrl = asyncHandler(
@@ -251,7 +251,7 @@ export const forgotPasswordCtrl = asyncHandler(
 
 /**
  * @desc   Reset password
- * @route  POST /api/auth/reset-password
+ * @route  POST /api/v1/auth/reset-password
  * @access public
  */
 export const resetPasswordCtrl = asyncHandler(
@@ -320,7 +320,7 @@ export const resetPasswordCtrl = asyncHandler(
 
 /**
  * @desc   Refresh access token
- * @route  /api/auth/refresh
+ * @route  /api/v1/auth/refresh
  * @method POST
  * @access public
  */
@@ -376,7 +376,7 @@ export const refreshCtrl = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @desc   Logout user
- * @route  /api/auth/logout
+ * @route  /api/v1/auth/logout
  * @method POST
  * @access public
  */
@@ -410,7 +410,7 @@ export const logoutCtrl = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @desc   Get Logged in user
- * @route  api/auth/me
+ * @route  api/v1/auth/me
  * @method GET
  * @access private(only Logged in User)
  */

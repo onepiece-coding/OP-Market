@@ -5,7 +5,7 @@ import { prismaClient } from "../db/prisma.js";
 
 /**
  * @desc   Add item to cart
- * @route  api/cart
+ * @route  api/v1/cart
  * @method POST
  * @access private
  */
@@ -60,7 +60,7 @@ export const addItemToCartCtrl = asyncHandler(
 
 /**
  * @desc   Delete item from cart
- * @route  api/cart/:id
+ * @route  api/v1/cart/:id
  * @method DELETE
  * @access private
  */
@@ -89,7 +89,7 @@ export const deleteItemFromCartCtrl = asyncHandler(
 
 /**
  * @desc   Change quantity
- * @route  api/cart/:id
+ * @route  api/v1/cart/:id
  * @method PUT
  * @access private
  */
@@ -122,7 +122,7 @@ export const changeQuantityCtrl = asyncHandler(
 
 /**
  * @desc   Get cart
- * @route  api/cart
+ * @route  api/v1/cart
  * @method GET
  * @access private
  */
