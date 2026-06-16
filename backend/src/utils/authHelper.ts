@@ -252,7 +252,7 @@ export const sendPasswordResetEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:4400").replace(
+  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:3000").replace(
     /\/$/,
     "",
   );
