@@ -350,7 +350,7 @@ describe("ordersController", () => {
 
       await createOrderCtrl(req, res);
 
-      expect(mocks.createPayPalOrder).toHaveBeenCalledWith(25.5);
+      expect(mocks.createPayPalOrder).toHaveBeenCalledWith(25.5, 123);
       expect(mocks.prismaClient.order.update).toHaveBeenCalledWith({
         where: { id: 123 },
         data: {

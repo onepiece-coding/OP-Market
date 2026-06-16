@@ -30,7 +30,7 @@ const isOrderStatus = (value: unknown): value is OrderStatus => {
 
 /**
  * @desc   Create Order
- * @route  api/orders
+ * @route  api/v1/orders
  * @method POST
  * @access private
  */
@@ -137,7 +137,7 @@ export const createOrderCtrl = asyncHandler(
     }
 
     try {
-      const paypal = await createPayPalOrder(Number(amount));
+      const paypal = await createPayPalOrder(Number(amount), order.id);
 
       const updatedOrder = await prismaClient.order.update({
         where: { id: order.id },
@@ -170,7 +170,7 @@ export const createOrderCtrl = asyncHandler(
 
 /**
  * @desc   List User Orders
- * @route  api/orders
+ * @route  api/v1/orders
  * @method GET
  * @access private
  */
@@ -188,7 +188,7 @@ export const listOrdersCtrl = asyncHandler(
 
 /**
  * @desc   Cancel Order
- * @route  api/orders/:id/cancel
+ * @route  api/v1/orders/:id/cancel
  * @method PUT
  * @access private
  */
@@ -217,7 +217,7 @@ export const cancelOrderCtrl = asyncHandler(
 
 /**
  * @desc   Get Order By Id
- * @route  api/orders/:id
+ * @route  api/v1/orders/:id
  * @method GET
  * @access private
  */
@@ -257,7 +257,7 @@ export const getOrderByIdCtrl = asyncHandler(
 
 /**
  * @desc   List All Orders
- * @route  api/orders/index
+ * @route  api/v1/orders/index
  * @method GET
  * @access private(admin only)
  */
@@ -304,7 +304,7 @@ export const listAllOrdersCtrl = asyncHandler(
 
 /**
  * @desc   Change Order Status
- * @route  api/orders/:id/status
+ * @route  api/v1/orders/:id/status
  * @method PUT
  * @access private(admin only)
  */
@@ -339,7 +339,7 @@ export const changeStatusCtrl = asyncHandler(
 
 /**
  * @desc   List All Orders Of User
- * @route  api/orders/users/:id
+ * @route  api/v1/orders/users/:id
  * @method GET
  * @access private(admin only)
  */

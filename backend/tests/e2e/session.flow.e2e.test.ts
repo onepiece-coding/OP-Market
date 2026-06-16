@@ -14,7 +14,7 @@ describe("Session lifecycle E2E flow", () => {
       password: "password123",
     });
 
-    const loginRes = await agent.post("/api/auth/login").send({
+    const loginRes = await agent.post("/api/v1/auth/login").send({
       email: user.email,
       password: rawPassword,
     });
@@ -37,7 +37,7 @@ describe("Session lifecycle E2E flow", () => {
     expect(tokensAfterLogin).toHaveLength(1);
     expect(tokensAfterLogin[0].revoked).toBe(false);
 
-    const refreshRes = await agent.post("/api/auth/refresh");
+    const refreshRes = await agent.post("/api/v1/auth/refresh");
 
     expect(refreshRes.status).toBe(200);
     expect(refreshRes.body.user.email).toBe(user.email);
@@ -60,7 +60,7 @@ describe("Session lifecycle E2E flow", () => {
     expect(tokensAfterRefresh.filter((t) => t.revoked)).toHaveLength(1);
     expect(tokensAfterRefresh.filter((t) => !t.revoked)).toHaveLength(1);
 
-    const logoutRes = await agent.post("/api/auth/logout");
+    const logoutRes = await agent.post("/api/v1/auth/logout");
 
     expect(logoutRes.status).toBe(200);
     expect(logoutRes.body.message).toBe("Logged out");
@@ -87,7 +87,7 @@ describe("Session lifecycle E2E flow", () => {
     expect(tokensAfterLogout).toHaveLength(2);
     expect(tokensAfterLogout.every((t) => t.revoked)).toBe(true);
 
-    const meRes = await agent.get("/api/auth/me");
+    const meRes = await agent.get("/api/v1/auth/me");
 
     expect(meRes.status).toBe(401);
     expect(meRes.body.message).toBe("Unauthorized!");

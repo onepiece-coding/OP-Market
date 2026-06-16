@@ -11,24 +11,24 @@ import {
 
 describe("Cart routes integration", () => {
   it("returns 401 for all unauthenticated cart routes", async () => {
-    const getRes = await request(app).get("/api/cart");
+    const getRes = await request(app).get("/api/v1/cart");
     expect(getRes.status).toBe(401);
     expect(getRes.body.message).toBe("Unauthorized!");
 
-    const postRes = await request(app).post("/api/cart").send({
+    const postRes = await request(app).post("/api/v1/cart").send({
       productId: 1,
       quantity: 1,
     });
     expect(postRes.status).toBe(401);
     expect(postRes.body.message).toBe("Unauthorized!");
 
-    const putRes = await request(app).put("/api/cart/1").send({
+    const putRes = await request(app).put("/api/v1/cart/1").send({
       quantity: 2,
     });
     expect(putRes.status).toBe(401);
     expect(putRes.body.message).toBe("Unauthorized!");
 
-    const deleteRes = await request(app).delete("/api/cart/1");
+    const deleteRes = await request(app).delete("/api/v1/cart/1");
     expect(deleteRes.status).toBe(401);
     expect(deleteRes.body.message).toBe("Unauthorized!");
   });
@@ -38,7 +38,7 @@ describe("Cart routes integration", () => {
     const product = await createProduct();
 
     const res = await request(app)
-      .post("/api/cart")
+      .post("/api/v1/cart")
       .set("Authorization", authHeaderFor(user.id))
       .send({
         productId: product.id,
@@ -64,7 +64,7 @@ describe("Cart routes integration", () => {
     await createCartItem(user.id, product.id, { quantity: 2 });
 
     const res = await request(app)
-      .post("/api/cart")
+      .post("/api/v1/cart")
       .set("Authorization", authHeaderFor(user.id))
       .send({
         productId: product.id,
@@ -87,7 +87,7 @@ describe("Cart routes integration", () => {
     const { user } = await createVerifiedUser();
 
     const missingProductRes = await request(app)
-      .post("/api/cart")
+      .post("/api/v1/cart")
       .set("Authorization", authHeaderFor(user.id))
       .send({
         productId: 999999,
@@ -98,7 +98,7 @@ describe("Cart routes integration", () => {
     expect(missingProductRes.body.message).toBe("Product Not Found!");
 
     const invalidPayloadRes = await request(app)
-      .post("/api/cart")
+      .post("/api/v1/cart")
       .set("Authorization", authHeaderFor(user.id))
       .send({
         productId: "abc",
@@ -125,7 +125,7 @@ describe("Cart routes integration", () => {
     await createCartItem(userB.id, productB.id, { quantity: 1 });
 
     const res = await request(app)
-      .get("/api/cart")
+      .get("/api/v1/cart")
       .set("Authorization", authHeaderFor(userA.id));
 
     expect(res.status).toBe(200);
@@ -144,7 +144,7 @@ describe("Cart routes integration", () => {
     const cartItem = await createCartItem(user.id, product.id, { quantity: 1 });
 
     const res = await request(app)
-      .put(`/api/cart/${cartItem.id}`)
+      .put(`/api/v1/cart/${cartItem.id}`)
       .set("Authorization", authHeaderFor(user.id))
       .send({
         quantity: 7,
@@ -174,7 +174,7 @@ describe("Cart routes integration", () => {
     });
 
     const invalidIdRes = await request(app)
-      .put("/api/cart/not-a-number")
+      .put("/api/v1/cart/not-a-number")
       .set("Authorization", authHeaderFor(user.id))
       .send({
         quantity: 3,
@@ -184,7 +184,7 @@ describe("Cart routes integration", () => {
     expect(invalidIdRes.body.message).toBe("Invalid cart id");
 
     const invalidQuantityRes = await request(app)
-      .put(`/api/cart/${otherCartItem.id}`)
+      .put(`/api/v1/cart/${otherCartItem.id}`)
       .set("Authorization", authHeaderFor(user.id))
       .send({
         quantity: 0,
@@ -195,7 +195,7 @@ describe("Cart routes integration", () => {
     expect(Array.isArray(invalidQuantityRes.body.errors)).toBe(true);
 
     const otherUserItemRes = await request(app)
-      .put(`/api/cart/${otherCartItem.id}`)
+      .put(`/api/v1/cart/${otherCartItem.id}`)
       .set("Authorization", authHeaderFor(user.id))
       .send({
         quantity: 5,
@@ -213,7 +213,7 @@ describe("Cart routes integration", () => {
     const cartItem = await createCartItem(user.id, product.id, { quantity: 1 });
 
     const res = await request(app)
-      .delete(`/api/cart/${cartItem.id}`)
+      .delete(`/api/v1/cart/${cartItem.id}`)
       .set("Authorization", authHeaderFor(user.id));
 
     expect(res.status).toBe(200);
@@ -240,14 +240,14 @@ describe("Cart routes integration", () => {
     });
 
     const invalidIdRes = await request(app)
-      .delete("/api/cart/not-a-number")
+      .delete("/api/v1/cart/not-a-number")
       .set("Authorization", authHeaderFor(user.id));
 
     expect(invalidIdRes.status).toBe(400);
     expect(invalidIdRes.body.message).toBe("Invalid cart id");
 
     const otherUserItemRes = await request(app)
-      .delete(`/api/cart/${otherCartItem.id}`)
+      .delete(`/api/v1/cart/${otherCartItem.id}`)
       .set("Authorization", authHeaderFor(user.id));
 
     expect(otherUserItemRes.status).toBe(404);

@@ -33,7 +33,7 @@ describe("Auth routes integration", () => {
     vi.unstubAllGlobals();
   });
 
-  describe("POST /api/auth/signup", () => {
+  describe("POST /api/v1/auth/signup", () => {
     it("creates a valid user, makes the first user ADMIN, stores hashed password, sanitizes response, and creates a verification token", async () => {
       const payload = {
         name: "First User",
@@ -41,7 +41,7 @@ describe("Auth routes integration", () => {
         password: "password123",
       };
 
-      const res = await request(app).post("/api/auth/signup").send(payload);
+      const res = await request(app).post("/api/v1/auth/signup").send(payload);
 
       expect(res.status).toBe(201);
       expect(res.body.verificationEmailSent).toBe(true);
@@ -62,13 +62,13 @@ describe("Auth routes integration", () => {
     });
 
     it("makes the second signed-up user USER", async () => {
-      await request(app).post("/api/auth/signup").send({
+      await request(app).post("/api/v1/auth/signup").send({
         name: "First User",
         email: "first2@test.com",
         password: "password123",
       });
 
-      const res = await request(app).post("/api/auth/signup").send({
+      const res = await request(app).post("/api/v1/auth/signup").send({
         name: "Second User",
         email: "second2@test.com",
         password: "password123",
@@ -79,13 +79,13 @@ describe("Auth routes integration", () => {
     });
 
     it("returns 400 for duplicate email", async () => {
-      await request(app).post("/api/auth/signup").send({
+      await request(app).post("/api/v1/auth/signup").send({
         name: "Dup User",
         email: "dup@test.com",
         password: "password123",
       });
 
-      const res = await request(app).post("/api/auth/signup").send({
+      const res = await request(app).post("/api/v1/auth/signup").send({
         name: "Dup User 2",
         email: "dup@test.com",
         password: "password123",
@@ -96,7 +96,7 @@ describe("Auth routes integration", () => {
     });
 
     it("returns 400 for invalid payload", async () => {
-      const res = await request(app).post("/api/auth/signup").send({
+      const res = await request(app).post("/api/v1/auth/signup").send({
         name: "Bad User",
         email: "not-an-email",
         password: "123",
@@ -114,7 +114,7 @@ describe("Auth routes integration", () => {
         vi.fn().mockRejectedValueOnce(new TypeError("fetch failed")),
       );
 
-      const res = await request(app).post("/api/auth/signup").send({
+      const res = await request(app).post("/api/v1/auth/signup").send({
         name: "Email Fail",
         email: "emailfail@test.com",
         password: "password123",
@@ -132,9 +132,9 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/login", () => {
+  describe("POST /api/v1/auth/login", () => {
     it("returns 400 for unknown email", async () => {
-      const res = await request(app).post("/api/auth/login").send({
+      const res = await request(app).post("/api/v1/auth/login").send({
         email: "missing@test.com",
         password: "password123",
       });
@@ -148,7 +148,7 @@ describe("Auth routes integration", () => {
         email: "unverified@test.com",
       });
 
-      const res = await request(app).post("/api/auth/login").send({
+      const res = await request(app).post("/api/v1/auth/login").send({
         email: user.email,
         password: rawPassword,
       });
@@ -165,7 +165,7 @@ describe("Auth routes integration", () => {
         password: "password123",
       });
 
-      const res = await request(app).post("/api/auth/login").send({
+      const res = await request(app).post("/api/v1/auth/login").send({
         email: user.email,
         password: "wrong-password",
       });
@@ -179,7 +179,7 @@ describe("Auth routes integration", () => {
         email: "loginok@test.com",
       });
 
-      const res = await request(app).post("/api/auth/login").send({
+      const res = await request(app).post("/api/v1/auth/login").send({
         email: user.email,
         password: rawPassword,
       });
@@ -195,9 +195,9 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("GET /api/auth/me", () => {
+  describe("GET /api/v1/auth/me", () => {
     it("returns 401 with no auth", async () => {
-      const res = await request(app).get("/api/auth/me");
+      const res = await request(app).get("/api/v1/auth/me");
 
       expect(res.status).toBe(401);
       expect(res.body.message).toBe("Unauthorized!");
@@ -209,7 +209,7 @@ describe("Auth routes integration", () => {
       });
 
       const res = await request(app)
-        .get("/api/auth/me")
+        .get("/api/v1/auth/me")
         .set("Cookie", accessCookieHeaderFor(user.id));
 
       expect(res.status).toBe(200);
@@ -222,7 +222,7 @@ describe("Auth routes integration", () => {
       });
 
       const okRes = await request(app)
-        .get("/api/auth/me")
+        .get("/api/v1/auth/me")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(okRes.status).toBe(200);
@@ -233,7 +233,7 @@ describe("Auth routes integration", () => {
       });
 
       const deletedRes = await request(app)
-        .get("/api/auth/me")
+        .get("/api/v1/auth/me")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(deletedRes.status).toBe(401);
@@ -241,9 +241,9 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("GET /api/auth/verify-email", () => {
+  describe("GET /api/v1/auth/verify-email", () => {
     it("returns 400 for missing token", async () => {
-      const res = await request(app).get("/api/auth/verify-email");
+      const res = await request(app).get("/api/v1/auth/verify-email");
 
       expect(res.status).toBe(400);
       expect(res.body.message).toBe("Missing verification token");
@@ -251,7 +251,7 @@ describe("Auth routes integration", () => {
 
     it("returns 400 for invalid token", async () => {
       const res = await request(app).get(
-        "/api/auth/verify-email?token=totally-invalid",
+        "/api/v1/auth/verify-email?token=totally-invalid",
       );
 
       expect(res.status).toBe(400);
@@ -272,7 +272,7 @@ describe("Auth routes integration", () => {
       );
 
       const expiredRes = await request(app).get(
-        `/api/auth/verify-email?token=${encodeURIComponent(expiredToken)}`,
+        `/api/v1/auth/verify-email?token=${encodeURIComponent(expiredToken)}`,
       );
 
       expect(expiredRes.status).toBe(400);
@@ -293,7 +293,7 @@ describe("Auth routes integration", () => {
       );
 
       const usedRes = await request(app).get(
-        `/api/auth/verify-email?token=${encodeURIComponent(usedToken)}`,
+        `/api/v1/auth/verify-email?token=${encodeURIComponent(usedToken)}`,
       );
 
       expect(usedRes.status).toBe(400);
@@ -313,7 +313,7 @@ describe("Auth routes integration", () => {
       });
 
       const res = await request(app).get(
-        `/api/auth/verify-email?token=${encodeURIComponent(rawToken)}`,
+        `/api/v1/auth/verify-email?token=${encodeURIComponent(rawToken)}`,
       );
 
       expect(res.status).toBe(200);
@@ -337,10 +337,10 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/resend-verification", () => {
+  describe("POST /api/v1/auth/resend-verification", () => {
     it("returns generic 200 for unknown email and verified user", async () => {
       const unknownRes = await request(app)
-        .post("/api/auth/resend-verification")
+        .post("/api/v1/auth/resend-verification")
         .send({ email: "unknown@test.com" });
 
       expect(unknownRes.status).toBe(200);
@@ -353,7 +353,7 @@ describe("Auth routes integration", () => {
       });
 
       const verifiedRes = await request(app)
-        .post("/api/auth/resend-verification")
+        .post("/api/v1/auth/resend-verification")
         .send({ email: user.email });
 
       expect(verifiedRes.status).toBe(200);
@@ -378,7 +378,7 @@ describe("Auth routes integration", () => {
       );
 
       const res = await request(app)
-        .post("/api/auth/resend-verification")
+        .post("/api/v1/auth/resend-verification")
         .send({ email: user.email });
 
       expect(res.status).toBe(200);
@@ -393,10 +393,10 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/forgot-password", () => {
+  describe("POST /api/v1/auth/forgot-password", () => {
     it("returns generic 200 for unknown email and creates a reset token for existing user while removing previous ones", async () => {
       const unknownRes = await request(app)
-        .post("/api/auth/forgot-password")
+        .post("/api/v1/auth/forgot-password")
         .send({ email: "missing-reset@test.com" });
 
       expect(unknownRes.status).toBe(200);
@@ -413,7 +413,7 @@ describe("Auth routes integration", () => {
       });
 
       const existingRes = await request(app)
-        .post("/api/auth/forgot-password")
+        .post("/api/v1/auth/forgot-password")
         .send({ email: user.email });
 
       expect(existingRes.status).toBe(200);
@@ -434,10 +434,10 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/reset-password", () => {
+  describe("POST /api/v1/auth/reset-password", () => {
     it("returns 400 for invalid, expired, or used token", async () => {
       const invalidRes = await request(app)
-        .post("/api/auth/reset-password")
+        .post("/api/v1/auth/reset-password")
         .send({
           token: "x".repeat(64),
           password: "newpassword123",
@@ -459,7 +459,7 @@ describe("Auth routes integration", () => {
       );
 
       const expiredRes = await request(app)
-        .post("/api/auth/reset-password")
+        .post("/api/v1/auth/reset-password")
         .send({
           token: expiredToken,
           password: "newpassword123",
@@ -480,10 +480,12 @@ describe("Auth routes integration", () => {
         },
       );
 
-      const usedRes = await request(app).post("/api/auth/reset-password").send({
-        token: usedToken,
-        password: "newpassword123",
-      });
+      const usedRes = await request(app)
+        .post("/api/v1/auth/reset-password")
+        .send({
+          token: usedToken,
+          password: "newpassword123",
+        });
 
       expect(usedRes.status).toBe(400);
       expect(usedRes.body.message).toBe("Invalid or expired reset token");
@@ -501,7 +503,7 @@ describe("Auth routes integration", () => {
 
       await createRefreshTokenRecord(user.id);
 
-      const res = await request(app).post("/api/auth/reset-password").send({
+      const res = await request(app).post("/api/v1/auth/reset-password").send({
         token: rawToken,
         password: "newpassword123",
       });
@@ -539,15 +541,15 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/refresh", () => {
+  describe("POST /api/v1/auth/refresh", () => {
     it("returns 401 for no cookie, invalid token, revoked token, or missing matching DB token", async () => {
-      const noCookieRes = await request(app).post("/api/auth/refresh");
+      const noCookieRes = await request(app).post("/api/v1/auth/refresh");
 
       expect(noCookieRes.status).toBe(401);
       expect(noCookieRes.body.message).toBe("No refresh token");
 
       const invalidRes = await request(app)
-        .post("/api/auth/refresh")
+        .post("/api/v1/auth/refresh")
         .set("Cookie", ["refreshToken=not-a-valid-jwt"]);
 
       expect(invalidRes.status).toBe(401);
@@ -565,7 +567,7 @@ describe("Auth routes integration", () => {
       });
 
       const revokedRes = await request(app)
-        .post("/api/auth/refresh")
+        .post("/api/v1/auth/refresh")
         .set("Cookie", [`refreshToken=${revokedRawToken}`]);
 
       expect(revokedRes.status).toBe(401);
@@ -576,7 +578,7 @@ describe("Auth routes integration", () => {
       });
 
       const agent = request.agent(app);
-      const loginRes = await agent.post("/api/auth/login").send({
+      const loginRes = await agent.post("/api/v1/auth/login").send({
         email: missingUser.email,
         password: "password123",
       });
@@ -592,7 +594,7 @@ describe("Auth routes integration", () => {
       });
 
       const missingRes = await request(app)
-        .post("/api/auth/refresh")
+        .post("/api/v1/auth/refresh")
         .set("Cookie", [`refreshToken=${refreshToken}`]);
 
       expect(missingRes.status).toBe(401);
@@ -606,7 +608,7 @@ describe("Auth routes integration", () => {
 
       const agent = request.agent(app);
 
-      const loginRes = await agent.post("/api/auth/login").send({
+      const loginRes = await agent.post("/api/v1/auth/login").send({
         email: user.email,
         password: rawPassword,
       });
@@ -617,7 +619,7 @@ describe("Auth routes integration", () => {
       expect(beforeTokens).toHaveLength(1);
       expect(beforeTokens[0].revoked).toBe(false);
 
-      const refreshRes = await agent.post("/api/auth/refresh");
+      const refreshRes = await agent.post("/api/v1/auth/refresh");
 
       expect(refreshRes.status).toBe(200);
       expect(refreshRes.body.user.email).toBe(user.email);
@@ -635,15 +637,15 @@ describe("Auth routes integration", () => {
     });
   });
 
-  describe("POST /api/auth/logout", () => {
+  describe("POST /api/v1/auth/logout", () => {
     it("returns 200 with no cookie and clears cookies even with invalid token", async () => {
-      const noCookieRes = await request(app).post("/api/auth/logout");
+      const noCookieRes = await request(app).post("/api/v1/auth/logout");
 
       expect(noCookieRes.status).toBe(200);
       expect(noCookieRes.body.message).toBe("Logged out");
 
       const invalidRes = await request(app)
-        .post("/api/auth/logout")
+        .post("/api/v1/auth/logout")
         .set("Cookie", ["refreshToken=not-a-valid-jwt"]);
 
       expect(invalidRes.status).toBe(200);
@@ -674,7 +676,7 @@ describe("Auth routes integration", () => {
 
       const agent = request.agent(app);
 
-      const loginRes = await agent.post("/api/auth/login").send({
+      const loginRes = await agent.post("/api/v1/auth/login").send({
         email: user.email,
         password: rawPassword,
       });
@@ -685,7 +687,7 @@ describe("Auth routes integration", () => {
       expect(beforeTokens).toHaveLength(1);
       expect(beforeTokens[0].revoked).toBe(false);
 
-      const logoutRes = await agent.post("/api/auth/logout");
+      const logoutRes = await agent.post("/api/v1/auth/logout");
 
       expect(logoutRes.status).toBe(200);
       expect(logoutRes.body.message).toBe("Logged out");

@@ -25,7 +25,7 @@ describe("App integration (app shell)", () => {
 
   it("error pipeline returns JSON (invalid JSON body)", async () => {
     const res = await request(app)
-      .post("/api/auth/signup")
+      .post("/api/v1/auth/signup")
       .set("Content-Type", "application/json")
       .send('{"invalidJson":'); // broken JSON
 
@@ -36,7 +36,7 @@ describe("App integration (app shell)", () => {
   });
 
   it("sanity: /api routes are mounted (auth route exists)", async () => {
-    const res = await request(app).get("/api/auth/me");
+    const res = await request(app).get("/api/v1/auth/me");
 
     expect(res.status).toBe(401);
 

@@ -40,7 +40,7 @@ describe("Products routes integration", () => {
     } as never);
   });
 
-  describe("GET /api/products/search", () => {
+  describe("GET /api/v1/products/search", () => {
     it("returns paginated results and empty query returns all products", async () => {
       await createProduct({
         name: "Laptop Pro",
@@ -58,7 +58,9 @@ describe("Products routes integration", () => {
         tags: "gaming,accessories",
       });
 
-      const res = await request(app).get("/api/products/search?page=1&limit=2");
+      const res = await request(app).get(
+        "/api/v1/products/search?page=1&limit=2",
+      );
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body.data)).toBe(true);
@@ -86,14 +88,16 @@ describe("Products routes integration", () => {
         tags: "gaming,console",
       });
 
-      const nameRes = await request(app).get("/api/products/search?q=laptop");
+      const nameRes = await request(app).get(
+        "/api/v1/products/search?q=laptop",
+      );
       expect(nameRes.status).toBe(200);
       expect(
         nameRes.body.data.some((p: { id: number }) => p.id === byName.id),
       ).toBe(true);
 
       const descriptionRes = await request(app).get(
-        "/api/products/search?q=study",
+        "/api/v1/products/search?q=study",
       );
       expect(descriptionRes.status).toBe(200);
       expect(
@@ -102,7 +106,9 @@ describe("Products routes integration", () => {
         ),
       ).toBe(true);
 
-      const tagsRes = await request(app).get("/api/products/search?q=gaming");
+      const tagsRes = await request(app).get(
+        "/api/v1/products/search?q=gaming",
+      );
       expect(tagsRes.status).toBe(200);
       expect(
         tagsRes.body.data.some((p: { id: number }) => p.id === byTags.id),
@@ -113,26 +119,26 @@ describe("Products routes integration", () => {
   describe("admin protection", () => {
     it("returns 401 for unauthenticated create, list, get, update, and delete", async () => {
       const createRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .field("name", "A");
       expect(createRes.status).toBe(401);
       expect(createRes.body.message).toBe("Unauthorized!");
 
-      const listRes = await request(app).get("/api/products");
+      const listRes = await request(app).get("/api/v1/products");
       expect(listRes.status).toBe(401);
       expect(listRes.body.message).toBe("Unauthorized!");
 
-      const getRes = await request(app).get("/api/products/1");
+      const getRes = await request(app).get("/api/v1/products/1");
       expect(getRes.status).toBe(401);
       expect(getRes.body.message).toBe("Unauthorized!");
 
-      const updateRes = await request(app).put("/api/products/1").send({
+      const updateRes = await request(app).put("/api/v1/products/1").send({
         name: "Updated",
       });
       expect(updateRes.status).toBe(401);
       expect(updateRes.body.message).toBe("Unauthorized!");
 
-      const deleteRes = await request(app).delete("/api/products/1");
+      const deleteRes = await request(app).delete("/api/v1/products/1");
       expect(deleteRes.status).toBe(401);
       expect(deleteRes.body.message).toBe("Unauthorized!");
     });
@@ -141,33 +147,33 @@ describe("Products routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const createRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(user.id))
         .field("name", "A");
       expect(createRes.status).toBe(403);
       expect(createRes.body.message).toBe("Forbidden: admin only");
 
       const listRes = await request(app)
-        .get("/api/products")
+        .get("/api/v1/products")
         .set("Authorization", authHeaderFor(user.id));
       expect(listRes.status).toBe(403);
       expect(listRes.body.message).toBe("Forbidden: admin only");
 
       const getRes = await request(app)
-        .get("/api/products/1")
+        .get("/api/v1/products/1")
         .set("Authorization", authHeaderFor(user.id));
       expect(getRes.status).toBe(403);
       expect(getRes.body.message).toBe("Forbidden: admin only");
 
       const updateRes = await request(app)
-        .put("/api/products/1")
+        .put("/api/v1/products/1")
         .set("Authorization", authHeaderFor(user.id))
         .send({ name: "Updated" });
       expect(updateRes.status).toBe(403);
       expect(updateRes.body.message).toBe("Forbidden: admin only");
 
       const deleteRes = await request(app)
-        .delete("/api/products/1")
+        .delete("/api/v1/products/1")
         .set("Authorization", authHeaderFor(user.id));
       expect(deleteRes.status).toBe(403);
       expect(deleteRes.body.message).toBe("Forbidden: admin only");
@@ -179,7 +185,7 @@ describe("Products routes integration", () => {
       const { user: admin } = await createAdmin();
 
       const invalidRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "")
         .field("description", "")
@@ -191,7 +197,7 @@ describe("Products routes integration", () => {
       expect(Array.isArray(invalidRes.body.errors)).toBe(true);
 
       const stringTagsRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "Keyboard")
         .field("description", "Mechanical keyboard")
@@ -203,7 +209,7 @@ describe("Products routes integration", () => {
       expect(stringTagsRes.body.tags).toBe("electronics,accessories");
 
       const arrayTagsRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "Headset")
         .field("description", "Wireless headset")
@@ -215,7 +221,7 @@ describe("Products routes integration", () => {
       expect(arrayTagsRes.body.tags).toBe("audio,gaming");
 
       const imageRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "Monitor")
         .field("description", "4K monitor")
@@ -244,7 +250,7 @@ describe("Products routes integration", () => {
       await createProduct({ name: "Product 3" });
 
       const res = await request(app)
-        .get("/api/products?page=1&limit=2")
+        .get("/api/v1/products?page=1&limit=2")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(res.status).toBe(200);
@@ -263,7 +269,7 @@ describe("Products routes integration", () => {
       const product = await createProduct({ name: "Existing Product" });
 
       const okRes = await request(app)
-        .get(`/api/products/${product.id}`)
+        .get(`/api/v1/products/${product.id}`)
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(okRes.status).toBe(200);
@@ -271,7 +277,7 @@ describe("Products routes integration", () => {
       expect(okRes.body.name).toBe("Existing Product");
 
       const missingRes = await request(app)
-        .get("/api/products/999999")
+        .get("/api/v1/products/999999")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(missingRes.status).toBe(404);
@@ -282,7 +288,7 @@ describe("Products routes integration", () => {
       const { user: admin } = await createAdmin();
 
       const invalidIdRes = await request(app)
-        .put("/api/products/not-a-number")
+        .put("/api/v1/products/not-a-number")
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           name: "Updated",
@@ -292,7 +298,7 @@ describe("Products routes integration", () => {
       expect(invalidIdRes.body.message).toBe("Invalid product id");
 
       const missingRes = await request(app)
-        .put("/api/products/999999")
+        .put("/api/v1/products/999999")
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           name: "Updated",
@@ -311,7 +317,7 @@ describe("Products routes integration", () => {
       });
 
       const partialRes = await request(app)
-        .put(`/api/products/${product.id}`)
+        .put(`/api/v1/products/${product.id}`)
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           name: "New Name",
@@ -323,7 +329,7 @@ describe("Products routes integration", () => {
       expect(partialRes.body.tags).toBe("new,tag");
 
       const imageRes = await request(app)
-        .put(`/api/products/${product.id}`)
+        .put(`/api/v1/products/${product.id}`)
         .set("Authorization", authHeaderFor(admin.id))
         .field("description", "Updated Description")
         .field("tags", "visual")
@@ -350,14 +356,14 @@ describe("Products routes integration", () => {
       const { user: admin } = await createAdmin();
 
       const invalidIdRes = await request(app)
-        .delete("/api/products/not-a-number")
+        .delete("/api/v1/products/not-a-number")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(invalidIdRes.status).toBe(400);
       expect(invalidIdRes.body.message).toBe("Invalid product id");
 
       const missingRes = await request(app)
-        .delete("/api/products/999999")
+        .delete("/api/v1/products/999999")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(missingRes.status).toBe(404);
@@ -370,7 +376,7 @@ describe("Products routes integration", () => {
       });
 
       const okRes = await request(app)
-        .delete(`/api/products/${product.id}`)
+        .delete(`/api/v1/products/${product.id}`)
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(okRes.status).toBe(200);
@@ -391,7 +397,7 @@ describe("Products routes integration", () => {
       const { user: admin } = await createAdmin();
 
       const nonImageRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "Bad Upload")
         .field("description", "Bad Upload Description")
@@ -407,7 +413,7 @@ describe("Products routes integration", () => {
       const largeBuffer = Buffer.alloc(1024 * 1024 + 1, "a");
 
       const largeFileRes = await request(app)
-        .post("/api/products")
+        .post("/api/v1/products")
         .set("Authorization", authHeaderFor(admin.id))
         .field("name", "Large Upload")
         .field("description", "Large Upload Description")

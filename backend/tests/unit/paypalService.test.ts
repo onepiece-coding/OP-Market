@@ -8,6 +8,7 @@ type SecretsMock = {
   PAYPAL_CLIENT_SECRET: string;
   PAYPAL_ENV: "sandbox" | "live";
   PAYPAL_CURRENCY: string;
+  SecretsMockvALLOWED_ORIGIN: string;
 };
 
 async function loadPayPalService(overrides: Partial<SecretsMock> = {}) {
@@ -18,6 +19,7 @@ async function loadPayPalService(overrides: Partial<SecretsMock> = {}) {
     PAYPAL_CLIENT_SECRET: "client-secret",
     PAYPAL_ENV: "sandbox",
     PAYPAL_CURRENCY: "USD",
+    ALLOWED_ORIGIN: "http://localhost:3000",
     ...overrides,
   }));
 
@@ -53,7 +55,7 @@ describe("paypalService", () => {
 
     global.fetch = fetchMock as typeof fetch;
 
-    await createPayPalOrder(25.5);
+    await createPayPalOrder(25.5, 123);
 
     const [url, init] = fetchMock.mock.calls[0];
     const expectedAuth = Buffer.from("client-id:client-secret").toString(
@@ -98,7 +100,7 @@ describe("paypalService", () => {
 
     global.fetch = fetchMock as typeof fetch;
 
-    const result = await createPayPalOrder(25.5);
+    const result = await createPayPalOrder(25.5, 123);
 
     const [url, init] = fetchMock.mock.calls[1];
 
@@ -113,12 +115,19 @@ describe("paypalService", () => {
         intent: "CAPTURE",
         purchase_units: [
           {
+            reference_id: "123",
             amount: {
               currency_code: "USD",
               value: "25.50",
             },
           },
         ],
+        application_context: {
+          return_url:
+            "http://localhost:3000/checkout/paypal/return?orderId=123",
+          cancel_url:
+            "http://localhost:3000/checkout/paypal/cancel?orderId=123",
+        },
       }),
     });
 
@@ -195,7 +204,7 @@ describe("paypalService", () => {
 
     global.fetch = fetchMock as typeof fetch;
 
-    const result = await createPayPalOrder(10);
+    const result = await createPayPalOrder(10, 123);
 
     expect(result).toEqual({
       paypalOrderId: "paypal-order-123",

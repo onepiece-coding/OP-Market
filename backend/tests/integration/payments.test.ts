@@ -18,9 +18,9 @@ describe("Payments routes integration", () => {
     vi.mocked(paypalServiceModule.capturePayPalOrder).mockReset();
   });
 
-  describe("POST /api/payments/paypal/:id/retry", () => {
+  describe("POST /api/v1/payments/paypal/:id/retry", () => {
     it("returns 401 when unauthenticated", async () => {
-      const res = await request(app).post("/api/payments/paypal/1/retry");
+      const res = await request(app).post("/api/v1/payments/paypal/1/retry");
 
       expect(res.status).toBe(401);
       expect(res.body.message).toBe("Unauthorized!");
@@ -30,7 +30,7 @@ describe("Payments routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/payments/paypal/not-a-number/retry")
+        .post("/api/v1/payments/paypal/not-a-number/retry")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -41,7 +41,7 @@ describe("Payments routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/payments/paypal/999999/retry")
+        .post("/api/v1/payments/paypal/999999/retry")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(404);
@@ -55,7 +55,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -70,7 +70,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -85,7 +85,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -100,7 +100,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -125,7 +125,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(500);
@@ -155,7 +155,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/retry`)
+        .post(`/api/v1/payments/paypal/${order.id}/retry`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(200);
@@ -175,9 +175,9 @@ describe("Payments routes integration", () => {
     });
   });
 
-  describe("POST /api/payments/paypal/:id/capture", () => {
+  describe("POST /api/v1/payments/paypal/:id/capture", () => {
     it("returns 401 when unauthenticated", async () => {
-      const res = await request(app).post("/api/payments/paypal/1/capture");
+      const res = await request(app).post("/api/v1/payments/paypal/1/capture");
 
       expect(res.status).toBe(401);
       expect(res.body.message).toBe("Unauthorized!");
@@ -187,7 +187,7 @@ describe("Payments routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/payments/paypal/not-a-number/capture")
+        .post("/api/v1/payments/paypal/not-a-number/capture")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -198,7 +198,7 @@ describe("Payments routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/payments/paypal/999999/capture")
+        .post("/api/v1/payments/paypal/999999/capture")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(404);
@@ -212,7 +212,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -229,7 +229,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(200);
@@ -247,7 +247,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -267,7 +267,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -292,7 +292,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -320,7 +320,7 @@ describe("Payments routes integration", () => {
       });
 
       const res = await request(app)
-        .post(`/api/payments/paypal/${order.id}/capture`)
+        .post(`/api/v1/payments/paypal/${order.id}/capture`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(200);

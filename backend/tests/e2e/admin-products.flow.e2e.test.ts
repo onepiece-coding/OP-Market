@@ -13,7 +13,7 @@ describe("Admin product management E2E flow", () => {
       password: "password123",
     });
 
-    const loginRes = await agent.post("/api/auth/login").send({
+    const loginRes = await agent.post("/api/v1/auth/login").send({
       email: admin.email,
       password: rawPassword,
     });
@@ -21,7 +21,7 @@ describe("Admin product management E2E flow", () => {
     expect(loginRes.status).toBe(200);
 
     const createRes = await agent
-      .post("/api/products")
+      .post("/api/v1/products")
       .field("name", "E2E Product")
       .field("description", "Initial E2E Description")
       .field("price", "49.99")
@@ -41,7 +41,7 @@ describe("Admin product management E2E flow", () => {
     expect(createdProduct).not.toBeNull();
     expect(createdProduct?.name).toBe("E2E Product");
 
-    const listRes = await agent.get("/api/products?page=1&limit=10");
+    const listRes = await agent.get("/api/v1/products?page=1&limit=10");
 
     expect(listRes.status).toBe(200);
     expect(Array.isArray(listRes.body.data)).toBe(true);
@@ -53,7 +53,7 @@ describe("Admin product management E2E flow", () => {
     expect(listRes.body.pagination.results).toBeGreaterThanOrEqual(1);
     expect(listRes.body.pagination.totalPages).toBeGreaterThanOrEqual(1);
 
-    const getRes = await agent.get(`/api/products/${productId}`);
+    const getRes = await agent.get(`/api/v1/products/${productId}`);
 
     expect(getRes.status).toBe(200);
     expect(getRes.body.id).toBe(productId);
@@ -61,7 +61,7 @@ describe("Admin product management E2E flow", () => {
     expect(getRes.body.description).toBe("Initial E2E Description");
     expect(getRes.body.tags).toBe("e2e,admin");
 
-    const updateRes = await agent.put(`/api/products/${productId}`).send({
+    const updateRes = await agent.put(`/api/v1/products/${productId}`).send({
       name: "Updated E2E Product",
       description: "Updated Description",
       price: 79.99,
@@ -84,7 +84,7 @@ describe("Admin product management E2E flow", () => {
     expect(Number(updatedProduct!.price)).toBe(79.99);
     expect(updatedProduct?.tags).toBe("updated,admin,flow");
 
-    const deleteRes = await agent.delete(`/api/products/${productId}`);
+    const deleteRes = await agent.delete(`/api/v1/products/${productId}`);
 
     expect(deleteRes.status).toBe(200);
     expect(deleteRes.body.message).toBe("Product deleted successfully");
@@ -94,7 +94,9 @@ describe("Admin product management E2E flow", () => {
     });
     expect(deletedProduct).toBeNull();
 
-    const listAfterDeleteRes = await agent.get("/api/products?page=1&limit=10");
+    const listAfterDeleteRes = await agent.get(
+      "/api/v1/products?page=1&limit=10",
+    );
 
     expect(listAfterDeleteRes.status).toBe(200);
     expect(

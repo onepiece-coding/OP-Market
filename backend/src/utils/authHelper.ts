@@ -231,7 +231,7 @@ export const sendVerificationEmail = async (
   rawToken: string,
 ) => {
   const host = req.get("host") ?? "localhost:3000";
-  const verificationUrl = `${req.protocol}://${host}/api/auth/verify-email?token=${encodeURIComponent(rawToken)}`;
+  const verificationUrl = `${req.protocol}://${host}/api/v1/auth/verify-email?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,

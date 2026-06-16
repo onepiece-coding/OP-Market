@@ -16,7 +16,6 @@ import {
   createAdmin,
   createCartItem,
   createOrder,
-  createOrderEvent,
   createOrderWithEvent,
   createProduct,
   createVerifiedUser,
@@ -29,9 +28,9 @@ describe("Orders routes integration", () => {
     vi.mocked(paypalServiceModule.capturePayPalOrder).mockReset();
   });
 
-  describe("POST /api/orders", () => {
+  describe("POST /api/v1/orders", () => {
     it("returns 401 when unauthenticated", async () => {
-      const res = await request(app).post("/api/orders").send({
+      const res = await request(app).post("/api/v1/orders").send({
         paymentMethod: "CASH_ON_DELIVERY",
       });
 
@@ -43,7 +42,7 @@ describe("Orders routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "STRIPE",
@@ -58,7 +57,7 @@ describe("Orders routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "CASH_ON_DELIVERY",
@@ -74,7 +73,7 @@ describe("Orders routes integration", () => {
       await createCartItem(user.id, product.id, { quantity: 2 });
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "CASH_ON_DELIVERY",
@@ -105,7 +104,7 @@ describe("Orders routes integration", () => {
       });
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "CASH_ON_DELIVERY",
@@ -132,7 +131,7 @@ describe("Orders routes integration", () => {
       await createCartItem(user.id, productB.id, { quantity: 1 });
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "CASH_ON_DELIVERY",
@@ -198,7 +197,7 @@ describe("Orders routes integration", () => {
       await createCartItem(user.id, product.id, { quantity: 1 });
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "PAYPAL",
@@ -232,7 +231,7 @@ describe("Orders routes integration", () => {
       await createCartItem(user.id, product.id, { quantity: 2 });
 
       const res = await request(app)
-        .post("/api/orders")
+        .post("/api/v1/orders")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           paymentMethod: "PAYPAL",
@@ -249,7 +248,7 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("GET /api/orders", () => {
+  describe("GET /api/v1/orders", () => {
     it("returns only current user's orders", async () => {
       const { user: userA } = await createVerifiedUser({
         email: "orders-a@test.com",
@@ -263,7 +262,7 @@ describe("Orders routes integration", () => {
       await createOrderWithEvent(userB.id, { status: "CANCELED" });
 
       const res = await request(app)
-        .get("/api/orders")
+        .get("/api/v1/orders")
         .set("Authorization", authHeaderFor(userA.id));
 
       expect(res.status).toBe(200);
@@ -274,12 +273,12 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("GET /api/orders/:id", () => {
+  describe("GET /api/v1/orders/:id", () => {
     it("returns 400 for invalid id", async () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .get("/api/orders/not-a-number")
+        .get("/api/v1/orders/not-a-number")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -302,7 +301,7 @@ describe("Orders routes integration", () => {
       await addProductToOrder(order.id, product.id, 2);
 
       const ownRes = await request(app)
-        .get(`/api/orders/${order.id}`)
+        .get(`/api/v1/orders/${order.id}`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(ownRes.status).toBe(200);
@@ -311,14 +310,14 @@ describe("Orders routes integration", () => {
       expect(Array.isArray(ownRes.body.events)).toBe(true);
 
       const otherRes = await request(app)
-        .get(`/api/orders/${order.id}`)
+        .get(`/api/v1/orders/${order.id}`)
         .set("Authorization", authHeaderFor(other.id));
 
       expect(otherRes.status).toBe(404);
       expect(otherRes.body.message).toBe("Order not found");
 
       const adminRes = await request(app)
-        .get(`/api/orders/${order.id}`)
+        .get(`/api/v1/orders/${order.id}`)
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(adminRes.status).toBe(200);
@@ -328,12 +327,12 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("PUT /api/orders/:id/cancel", () => {
+  describe("PUT /api/v1/orders/:id/cancel", () => {
     it("returns 400 for invalid id", async () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .put("/api/orders/not-a-number/cancel")
+        .put("/api/v1/orders/not-a-number/cancel")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -351,7 +350,7 @@ describe("Orders routes integration", () => {
       const order = await createOrderWithEvent(user.id, { status: "PENDING" });
 
       const okRes = await request(app)
-        .put(`/api/orders/${order.id}/cancel`)
+        .put(`/api/v1/orders/${order.id}/cancel`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(okRes.status).toBe(200);
@@ -369,7 +368,7 @@ describe("Orders routes integration", () => {
       });
 
       const otherRes = await request(app)
-        .put(`/api/orders/${otherOrder.id}/cancel`)
+        .put(`/api/v1/orders/${otherOrder.id}/cancel`)
         .set("Authorization", authHeaderFor(other.id));
 
       expect(otherRes.status).toBe(404);
@@ -377,7 +376,7 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("GET /api/orders/index", () => {
+  describe("GET /api/v1/orders/index", () => {
     it("returns 403 for non-admin and returns paginated filtered orders for admin", async () => {
       const { user } = await createVerifiedUser({
         email: "nonadmin-orders@test.com",
@@ -395,14 +394,14 @@ describe("Orders routes integration", () => {
       void orderC;
 
       const forbiddenRes = await request(app)
-        .get("/api/orders/index")
+        .get("/api/v1/orders/index")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(forbiddenRes.status).toBe(403);
       expect(forbiddenRes.body.message).toBe("Forbidden: admin only");
 
       const res = await request(app)
-        .get("/api/orders/index?page=1&limit=2&status=CANCELED")
+        .get("/api/v1/orders/index?page=1&limit=2&status=CANCELED")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(res.status).toBe(200);
@@ -417,7 +416,7 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("GET /api/orders/users/:id", () => {
+  describe("GET /api/v1/orders/users/:id", () => {
     it("returns 403 for non-admin and returns paginated filtered orders for target user to admin", async () => {
       const { user } = await createVerifiedUser({
         email: "target-user-orders@test.com",
@@ -434,14 +433,14 @@ describe("Orders routes integration", () => {
       await createOrder(user.id, { status: "DELIVERED" });
 
       const forbiddenRes = await request(app)
-        .get(`/api/orders/users/${user.id}`)
+        .get(`/api/v1/orders/users/${user.id}`)
         .set("Authorization", authHeaderFor(viewer.id));
 
       expect(forbiddenRes.status).toBe(403);
       expect(forbiddenRes.body.message).toBe("Forbidden: admin only");
 
       const res = await request(app)
-        .get(`/api/orders/users/${user.id}?page=1&limit=2&status=DELIVERED`)
+        .get(`/api/v1/orders/users/${user.id}?page=1&limit=2&status=DELIVERED`)
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(res.status).toBe(200);
@@ -458,7 +457,7 @@ describe("Orders routes integration", () => {
     });
   });
 
-  describe("PUT /api/orders/:id/status", () => {
+  describe("PUT /api/v1/orders/:id/status", () => {
     it("returns 403 for non-admin, 400 for invalid id, 404 for missing order, and updates status with event for valid admin request", async () => {
       const { user } = await createVerifiedUser({
         email: "nonadmin-status@test.com",
@@ -469,7 +468,7 @@ describe("Orders routes integration", () => {
       const order = await createOrderWithEvent(user.id, { status: "PENDING" });
 
       const forbiddenRes = await request(app)
-        .put(`/api/orders/${order.id}/status`)
+        .put(`/api/v1/orders/${order.id}/status`)
         .set("Authorization", authHeaderFor(user.id))
         .send({
           status: "DELIVERED",
@@ -479,7 +478,7 @@ describe("Orders routes integration", () => {
       expect(forbiddenRes.body.message).toBe("Forbidden: admin only");
 
       const invalidIdRes = await request(app)
-        .put("/api/orders/not-a-number/status")
+        .put("/api/v1/orders/not-a-number/status")
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           status: "DELIVERED",
@@ -489,7 +488,7 @@ describe("Orders routes integration", () => {
       expect(invalidIdRes.body.message).toBe("Invalid order id");
 
       const missingRes = await request(app)
-        .put("/api/orders/999999/status")
+        .put("/api/v1/orders/999999/status")
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           status: "DELIVERED",
@@ -499,7 +498,7 @@ describe("Orders routes integration", () => {
       expect(missingRes.body.message).toBe("Order not found");
 
       const okRes = await request(app)
-        .put(`/api/orders/${order.id}/status`)
+        .put(`/api/v1/orders/${order.id}/status`)
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           status: "DELIVERED",

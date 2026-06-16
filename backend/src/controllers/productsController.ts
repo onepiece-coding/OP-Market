@@ -11,7 +11,7 @@ type MulterRequest = Request & {
 
 /**
  * @desc   Create new products
- * @route  api/products
+ * @route  api/v1/products
  * @method POST
  * @access private(only ADMIN)
  */
@@ -57,7 +57,7 @@ export const createProductCtrl = asyncHandler(
 
 /**
  * @desc   Update product
- * @route  api/products/:id
+ * @route  api/v1/products/:id
  * @method PUT
  * @access private(only ADMIN)
  */
@@ -146,7 +146,7 @@ export const updateProductCtrl = asyncHandler(
 
 /**
  * @desc   Delete product
- * @route  api/products/:id
+ * @route  api/v1/products/:id
  * @method DELETE
  * @access private(only ADMIN)
  */
@@ -184,7 +184,7 @@ export const deleteProductCtrl = asyncHandler(
 
 /**
  * @desc   list products
- * @route  api/products
+ * @route  api/v1/products
  * @method GET
  * @access private(only ADMIN)
  */
@@ -222,7 +222,7 @@ export const listProductsCtrl = asyncHandler(
 
 /**
  * @desc   Get product by id
- * @route  api/products/:id
+ * @route  api/v1/products/:id
  * @method GET
  * @access private(only ADMIN)
  */
@@ -244,7 +244,7 @@ export const getProductByIdCtrl = asyncHandler(
 
 /**
  * @desc   Search products
- * @route  api/products/search
+ * @route  api/v1/products/search
  * @method GET
  * @access private
  */

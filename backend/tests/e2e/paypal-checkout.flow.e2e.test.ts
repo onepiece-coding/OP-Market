@@ -68,14 +68,14 @@ describe("PayPal checkout E2E flow", () => {
     await setDefaultShippingAddress(user.id, address.id);
     await createCartItem(user.id, product.id, { quantity: 2 });
 
-    const loginRes = await agent.post("/api/auth/login").send({
+    const loginRes = await agent.post("/api/v1/auth/login").send({
       email: user.email,
       password: rawPassword,
     });
 
     expect(loginRes.status).toBe(200);
 
-    const createOrderRes = await agent.post("/api/orders").send({
+    const createOrderRes = await agent.post("/api/v1/orders").send({
       paymentMethod: "PAYPAL",
     });
 
@@ -109,7 +109,7 @@ describe("PayPal checkout E2E flow", () => {
     expect(cartAfterCreate).toHaveLength(0);
 
     const captureRes = await agent.post(
-      `/api/payments/paypal/${orderId}/capture`,
+      `/api/v1/payments/paypal/${orderId}/capture`,
     );
 
     expect(captureRes.status).toBe(200);

@@ -12,11 +12,11 @@ import {
 describe("Users routes integration", () => {
   describe("address endpoints", () => {
     it("returns 401 for unauthenticated GET, POST, and DELETE", async () => {
-      const listRes = await request(app).get("/api/users/address");
+      const listRes = await request(app).get("/api/v1/users/address");
       expect(listRes.status).toBe(401);
       expect(listRes.body.message).toBe("Unauthorized!");
 
-      const createRes = await request(app).post("/api/users/address").send({
+      const createRes = await request(app).post("/api/v1/users/address").send({
         lineOne: "123 Main St",
         city: "Casablanca",
         country: "MA",
@@ -25,7 +25,7 @@ describe("Users routes integration", () => {
       expect(createRes.status).toBe(401);
       expect(createRes.body.message).toBe("Unauthorized!");
 
-      const deleteRes = await request(app).delete("/api/users/address/1");
+      const deleteRes = await request(app).delete("/api/v1/users/address/1");
       expect(deleteRes.status).toBe(401);
       expect(deleteRes.body.message).toBe("Unauthorized!");
     });
@@ -34,7 +34,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/users/address")
+        .post("/api/v1/users/address")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           lineOne: "123 Main St",
@@ -54,7 +54,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .post("/api/users/address")
+        .post("/api/v1/users/address")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           lineOne: "123 Main St",
@@ -81,7 +81,7 @@ describe("Users routes integration", () => {
       await createAddress(userB.id, { lineOne: "User B Address 1" });
 
       const res = await request(app)
-        .get("/api/users/address")
+        .get("/api/v1/users/address")
         .set("Authorization", authHeaderFor(userA.id));
 
       expect(res.status).toBe(200);
@@ -99,7 +99,7 @@ describe("Users routes integration", () => {
       const address = await createAddress(user.id);
 
       const res = await request(app)
-        .delete(`/api/users/address/${address.id}`)
+        .delete(`/api/v1/users/address/${address.id}`)
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(200);
@@ -121,7 +121,7 @@ describe("Users routes integration", () => {
       const address = await createAddress(owner.id);
 
       const res = await request(app)
-        .delete(`/api/users/address/${address.id}`)
+        .delete(`/api/v1/users/address/${address.id}`)
         .set("Authorization", authHeaderFor(other.id));
 
       expect(res.status).toBe(404);
@@ -132,7 +132,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .delete("/api/users/address/not-a-number")
+        .delete("/api/v1/users/address/not-a-number")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(400);
@@ -145,7 +145,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           name: "Updated Name",
@@ -165,7 +165,7 @@ describe("Users routes integration", () => {
       const address = await createAddress(user.id);
 
       const res = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultShippingAddress: address.id,
@@ -185,7 +185,7 @@ describe("Users routes integration", () => {
       const address = await createAddress(user.id);
 
       const res = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultBillingAddress: address.id,
@@ -210,7 +210,7 @@ describe("Users routes integration", () => {
       const otherAddress = await createAddress(other.id);
 
       const shippingRes = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultShippingAddress: otherAddress.id,
@@ -220,7 +220,7 @@ describe("Users routes integration", () => {
       expect(shippingRes.body.message).toBe("Address does not belong to user!");
 
       const billingRes = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultBillingAddress: otherAddress.id,
@@ -234,7 +234,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultShippingAddress: "abc",
@@ -249,7 +249,7 @@ describe("Users routes integration", () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .put("/api/users")
+        .put("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id))
         .send({
           defaultShippingAddress: 999999,
@@ -261,18 +261,18 @@ describe("Users routes integration", () => {
   });
 
   describe("admin-only endpoints", () => {
-    it("returns 403 for non-admin GET /api/users", async () => {
+    it("returns 403 for non-admin GET /api/v1/users", async () => {
       const { user } = await createVerifiedUser();
 
       const res = await request(app)
-        .get("/api/users")
+        .get("/api/v1/users")
         .set("Authorization", authHeaderFor(user.id));
 
       expect(res.status).toBe(403);
       expect(res.body.message).toBe("Forbidden: admin only");
     });
 
-    it("admin GET /api/users returns paginated users with correct metadata", async () => {
+    it("admin GET /api/v1/users returns paginated users with correct metadata", async () => {
       const { user: admin } = await createAdmin({
         email: "admin-users@test.com",
       });
@@ -282,7 +282,7 @@ describe("Users routes integration", () => {
       await createVerifiedUser({ email: "user3@test.com" });
 
       const res = await request(app)
-        .get("/api/users?page=1&limit=2")
+        .get("/api/v1/users?page=1&limit=2")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(res.status).toBe(200);
@@ -294,7 +294,7 @@ describe("Users routes integration", () => {
       expect(res.body.pagination.totalPages).toBe(2);
     });
 
-    it("admin GET /api/users/:id returns user with addresses, 400 for invalid id, and 404 for missing user", async () => {
+    it("admin GET /api/v1/users/:id returns user with addresses, 400 for invalid id, and 404 for missing user", async () => {
       const { user: admin } = await createAdmin({
         email: "admin-detail@test.com",
       });
@@ -305,7 +305,7 @@ describe("Users routes integration", () => {
       await createAddress(user.id, { lineOne: "Address 2" });
 
       const okRes = await request(app)
-        .get(`/api/users/${user.id}`)
+        .get(`/api/v1/users/${user.id}`)
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(okRes.status).toBe(200);
@@ -315,21 +315,21 @@ describe("Users routes integration", () => {
       expect(okRes.body.addresses).toHaveLength(2);
 
       const invalidRes = await request(app)
-        .get("/api/users/not-a-number")
+        .get("/api/v1/users/not-a-number")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(invalidRes.status).toBe(400);
       expect(invalidRes.body.message).toBe("Invalid user id");
 
       const missingRes = await request(app)
-        .get("/api/users/999999")
+        .get("/api/v1/users/999999")
         .set("Authorization", authHeaderFor(admin.id));
 
       expect(missingRes.status).toBe(404);
       expect(missingRes.body.message).toBe("User Not Found!");
     });
 
-    it("admin PUT /api/users/:id/role updates role, returns 400 for invalid role, and 404 for missing user", async () => {
+    it("admin PUT /api/v1/users/:id/role updates role, returns 400 for invalid role, and 404 for missing user", async () => {
       const { user: admin } = await createAdmin({
         email: "admin-role@test.com",
       });
@@ -338,7 +338,7 @@ describe("Users routes integration", () => {
       });
 
       const okRes = await request(app)
-        .put(`/api/users/${user.id}/role`)
+        .put(`/api/v1/users/${user.id}/role`)
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           role: "ADMIN",
@@ -353,7 +353,7 @@ describe("Users routes integration", () => {
       expect(updated?.role).toBe("ADMIN");
 
       const invalidRes = await request(app)
-        .put(`/api/users/${user.id}/role`)
+        .put(`/api/v1/users/${user.id}/role`)
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           role: "SUPER_ADMIN",
@@ -364,7 +364,7 @@ describe("Users routes integration", () => {
       expect(Array.isArray(invalidRes.body.errors)).toBe(true);
 
       const missingRes = await request(app)
-        .put("/api/users/999999/role")
+        .put("/api/v1/users/999999/role")
         .set("Authorization", authHeaderFor(admin.id))
         .send({
           role: "USER",

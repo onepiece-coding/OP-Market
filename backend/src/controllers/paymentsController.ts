@@ -9,7 +9,7 @@ import {
 
 /**
  * @desc   Retry Paypal Payement
- * @route  api/payments/paypal/:id/retry
+ * @route  api/v1/payments/paypal/:id/retry
  * @method POST
  * @access private
  */
@@ -56,7 +56,7 @@ export const retryPayPalPaymentCtrl = asyncHandler(
       throw createError(400, "Invalid order amount");
     }
 
-    const paypal = await createPayPalOrder(amount);
+    const paypal = await createPayPalOrder(amount, order.id);
 
     if (!paypal.approvalUrl) {
       throw createError(500, "PayPal approval URL was not returned");
@@ -81,7 +81,7 @@ export const retryPayPalPaymentCtrl = asyncHandler(
 
 /**
  * @desc   Capture Paypal Payement
- * @route  api/payments/paypal/:id/capture
+ * @route  api/v1/payments/paypal/:id/capture
  * @method POST
  * @access private
  */

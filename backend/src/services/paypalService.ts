@@ -1,4 +1,5 @@
 import {
+  ALLOWED_ORIGIN,
   PAYPAL_CLIENT_ID,
   PAYPAL_CLIENT_SECRET,
   PAYPAL_ENV,
@@ -10,12 +11,21 @@ const baseUrl =
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
 
+const PAYPAL_RETURN_PATH = "/checkout/paypal/return";
+const PAYPAL_CANCEL_PATH = "/checkout/paypal/cancel";
+
 const assertPayPalConfig = () => {
   if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
     throw new Error(
       "PayPal is not configured. Check PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET.",
     );
   }
+};
+
+const buildFrontendUrl = (path: string, orderId: number) => {
+  const url = new URL(path, ALLOWED_ORIGIN);
+  url.searchParams.set("orderId", String(orderId));
+  return url.toString();
 };
 
 async function getAccessToken() {
@@ -43,7 +53,7 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-export async function createPayPalOrder(amount: number) {
+export async function createPayPalOrder(amount: number, orderId: number) {
   const token = await getAccessToken();
 
   const res = await fetch(`${baseUrl}/v2/checkout/orders`, {
@@ -56,12 +66,17 @@ export async function createPayPalOrder(amount: number) {
       intent: "CAPTURE",
       purchase_units: [
         {
+          reference_id: String(orderId),
           amount: {
             currency_code: PAYPAL_CURRENCY,
             value: amount.toFixed(2),
           },
         },
       ],
+      application_context: {
+        return_url: buildFrontendUrl(PAYPAL_RETURN_PATH, orderId),
+        cancel_url: buildFrontendUrl(PAYPAL_CANCEL_PATH, orderId),
+      },
     }),
   });
 
