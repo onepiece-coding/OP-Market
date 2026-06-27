@@ -26,10 +26,11 @@ productsRoutes
 
 productsRoutes.get("/search", searchProductsCtrl);
 
+productsRoutes.get("/:id", getProductByIdCtrl);
+
 productsRoutes
   .route("/:id")
   .all(authMiddleware, adminMiddleware)
-  .get(getProductByIdCtrl)
   .put(singleImage("image"), validate(updateProductSchema), updateProductCtrl)
   .delete(deleteProductCtrl);
 

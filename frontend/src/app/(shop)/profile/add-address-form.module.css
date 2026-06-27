@@ -1,0 +1,25 @@
+/**
+ * @file src/app/(shop)/profile/AddAddressForm.module.css
+ */
+
+.form {
+  background-color: var(--color-surface-2);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-4);
+  padding: var(--space-5);
+  flex-direction: column;
+  gap: var(--space-4);
+  display: flex;
+}
+
+.row {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  display: grid;
+}
+
+.actions {
+  justify-content: flex-end;
+  gap: var(--space-3);
+  display: flex;
+}

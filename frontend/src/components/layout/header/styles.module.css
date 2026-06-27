@@ -1,0 +1,460 @@
+/**
+ * @file src/components/layout/header/styles.module.css
+ */
+
+.header {
+  border-bottom: 1px solid var(--color-border);
+  background-color: rgb(255 255 255 / 0.88);
+  -webkit-backdrop-filter: blur(10px);
+  height: var(--header-height);
+  backdrop-filter: blur(10px);
+  z-index: var(--z-sticky);
+  position: sticky;
+  top: 0;
+}
+
+.inner {
+  align-items: center;
+  gap: var(--space-4);
+  display: flex;
+  height: 100%;
+}
+
+.logo {
+  font-weight: var(--font-extrabold);
+  font-size: var(--text-xl);
+  letter-spacing: -0.04em;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.logoText {
+  color: var(--color-text);
+}
+
+.logoAccent {
+  color: var(--color-primary);
+}
+
+.nav {
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-1);
+  display: none;
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+}
+
+.navLink {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (hover: hover) {
+  .navLink:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}
+
+.navLinkActive {
+  background-color: var(--color-primary-light);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+
+.actions {
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+  display: flex;
+}
+
+.iconButton {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  background: none;
+  cursor: pointer;
+  height: 2.25rem;
+  width: 2.25rem;
+  flex-shrink: 0;
+  border: none;
+}
+
+@media (hover: hover) {
+  .iconButton:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}
+
+.badge {
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-bg);
+  border-radius: var(--radius-full);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-bold);
+  justify-content: center;
+  pointer-events: none;
+  padding-inline: 3px;
+  align-items: center;
+  position: absolute;
+  min-width: 17px;
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  height: 17px;
+  right: 1px;
+  top: 1px;
+}
+
+.userSection {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .userSection {
+    align-items: center;
+    display: flex;
+  }
+}
+
+.skeleton {
+  animation: var(--animation-shimmer) 1.5s infinite;
+  border-radius: var(--radius-lg);
+  background-size: 200% 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-neutral-100) 25%,
+    var(--color-neutral-200) 50%,
+    var(--color-neutral-100) 75%
+  );
+  height: 34px;
+  width: 90px;
+}
+
+/* Logged-in user button */
+.userMenuWrapper {
+  position: relative;
+}
+
+.userButton {
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  border: 1px solid transparent;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  gap: var(--space-1-5);
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  display: flex;
+}
+
+@media (hover: hover) {
+  .userButton:hover {
+    background-color: var(--color-surface-2);
+    border-color: var(--color-border);
+  }
+}
+
+.userName {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 96px;
+}
+
+.chevron {
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  animation: var(--animation-slide-in-down) var(--transition-normal);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  top: calc(100% + var(--space-2));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-dropdown);
+  padding: var(--space-2);
+  position: absolute;
+  min-width: 224px;
+  right: 0;
+}
+
+.dropdownHeader {
+  padding: var(--space-2) var(--space-3);
+}
+
+.dropdownName {
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.dropdownEmail {
+  color: var(--color-text-muted);
+  margin-top: var(--space-0-5);
+  font-size: var(--text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.dropdownDivider {
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-2) 0;
+  border: none;
+}
+
+.dropdownItem {
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  border: none;
+  width: 100%;
+}
+
+.dropdownLogout {
+  color: var(--color-error-600);
+}
+
+@media (hover: hover) {
+  .dropdownItem:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .dropdownLogout:hover {
+    background-color: var(--color-error-50);
+    color: var(--color-error-700);
+  }
+}
+
+.authButtons {
+  align-items: center;
+  gap: var(--space-2);
+  display: flex;
+}
+
+.signInLink {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.signUpButton {
+  transition: background-color var(--transition-fast);
+  padding: var(--space-1-5) var(--space-3);
+  background-color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+}
+
+@media (hover: hover) {
+  .signInLink:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .signUpButton:hover {
+    background-color: var(--color-primary-hover);
+  }
+}
+
+.menuButton {
+  display: inline-flex;
+}
+
+@media (min-width: 768px) {
+  .menuButton {
+    display: none;
+  }
+}
+
+.backdrop {
+  animation: var(--animation-fade-in) var(--transition-normal);
+  background-color: rgb(0 0 0 / 0.45);
+  z-index: calc(var(--z-sticky) + 1);
+  position: fixed;
+  inset: 0;
+}
+
+/* The slide-in panel */
+.mobileMenu {
+  animation: var(--animation-slide-from-right) var(--transition-slow);
+  background-color: var(--color-surface);
+  z-index: calc(var(--z-sticky) + 2);
+  box-shadow: var(--shadow-2xl);
+  width: min(320px, 90vw);
+  padding: var(--space-4);
+  flex-direction: column;
+  gap: var(--space-1);
+  overflow-y: auto;
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  right: 0;
+  top: 0;
+}
+
+.mobileMenuHeader {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-4);
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  align-items: center;
+  display: flex;
+}
+
+.mobileNavLink {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  gap: var(--space-3);
+  align-items: center;
+  text-align: left;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  border: none;
+  width: 100%;
+}
+
+@media (hover: hover) {
+  .mobileNavLink:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}
+
+.mobileNavLinkActive {
+  background-color: var(--color-primary-light);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+
+.mobileDivider {
+  background-color: var(--color-border);
+  margin: var(--space-2) 0;
+  flex-shrink: 0;
+  height: 1px;
+}
+
+.mobileUserSection {
+  flex-direction: column;
+  gap: var(--space-1);
+  display: flex;
+}
+
+.mobileUserInfo {
+  padding: var(--space-2) var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.mobileLogout {
+  color: var(--color-error-600);
+}
+
+@media (hover: hover) {
+  .mobileLogout:hover {
+    background-color: var(--color-error-50);
+    color: var(--color-error-700);
+  }
+}
+
+.mobileAuthButtons {
+  padding-top: var(--space-2);
+  flex-direction: column;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.mobileSignIn {
+  transition: background-color var(--transition-fast);
+  border: 1px solid var(--color-border);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  justify-content: center;
+  align-items: center;
+  height: 2.75rem;
+  display: flex;
+}
+
+.mobileSignUp {
+  transition: background-color var(--transition-fast);
+  background-color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  justify-content: center;
+  align-items: center;
+  height: 2.75rem;
+  display: flex;
+}
+
+@media (hover: hover) {
+  .mobileSignIn:hover {
+    background-color: var(--color-surface-2);
+  }
+
+  .mobileSignUp:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

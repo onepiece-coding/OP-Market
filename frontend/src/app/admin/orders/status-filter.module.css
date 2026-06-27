@@ -1,0 +1,25 @@
+/**
+ * @file src/app/admin/orders/status-filter.module.css
+ */
+
+.form {
+  align-items: center;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.select {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding-inline: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  height: 2.25rem;
+}
+
+.select:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}

@@ -1,0 +1,23 @@
+/**
+ * @file src/app/admin/orders/page.module.css
+ */
+
+.orderIdCell {
+  font-weight: var(--font-semibold);
+}
+
+.customerLink {
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+}
+
+@media (hover: hover) {
+  .customerLink:hover {
+    text-decoration: underline;
+  }
+}
+
+.paymentCell {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}

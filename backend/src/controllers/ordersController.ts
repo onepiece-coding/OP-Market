@@ -180,6 +180,9 @@ export const listOrdersCtrl = asyncHandler(
       where: {
         userId: req.user!.id,
       },
+      include: {
+        products: true,
+      },
     });
 
     res.status(200).json(orders);

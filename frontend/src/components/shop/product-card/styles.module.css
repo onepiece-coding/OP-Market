@@ -1,0 +1,59 @@
+/**
+ * @file src/components/shop/product-card/styles.module.css
+ */
+
+.card {
+  text-decoration: none;
+  display: block;
+}
+
+.imageWrapper {
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  transition: transform var(--transition-slow);
+  object-fit: cover;
+}
+
+@media (hover: hover) {
+  .card:hover .image {
+    transform: scale(1.04);
+  }
+}
+
+.imagePlaceholder {
+  color: var(--color-neutral-400);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.info {
+  padding-top: var(--space-3);
+}
+
+.name {
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+  -webkit-box-orient: vertical;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  line-clamp: 2;
+}
+
+.price {
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  margin-top: var(--space-1);
+  color: var(--color-text);
+}

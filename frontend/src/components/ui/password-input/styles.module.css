@@ -1,0 +1,26 @@
+/**
+ * @file src/components/ui/input/styles.module.css
+ */
+
+.toggleButton {
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-1);
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  border: none;
+}
+
+@media (hover: hover) {
+  .toggleButton:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}

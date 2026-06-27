@@ -1,0 +1,22 @@
+/**
+ * @file src/app/toast-container.module.css
+ */
+
+.container {
+  max-width: calc(100vw - var(--space-8));
+  z-index: var(--z-toast);
+  bottom: var(--space-6);
+  flex-direction: column;
+  right: var(--space-6);
+  gap: var(--space-3);
+  position: fixed;
+  display: flex;
+}
+
+@media (max-width: 480px) {
+  .container {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    left: var(--space-4);
+  }
+}

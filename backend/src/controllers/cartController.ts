@@ -40,6 +40,7 @@ export const addItemToCartCtrl = asyncHandler(
         data: {
           quantity: existing.quantity + quantity,
         },
+        include: { product: true },
       });
 
       res.status(200).json(updated);
@@ -52,6 +53,7 @@ export const addItemToCartCtrl = asyncHandler(
         productId: product.id,
         quantity,
       },
+      include: { product: true },
     });
 
     res.status(201).json(cart);
@@ -114,6 +116,7 @@ export const changeQuantityCtrl = asyncHandler(
 
     const updatedCart = await prismaClient.cartItem.findUnique({
       where: { id: cartId },
+      include: { product: true },
     });
 
     res.status(200).json(updatedCart);

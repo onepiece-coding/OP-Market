@@ -1,0 +1,18 @@
+/**
+ * @file src/app/(auth)/signup/signup-form.module.css
+ */
+
+.form {
+  flex-direction: column;
+  gap: var(--space-5);
+  display: flex;
+}
+
+.formError {
+  border: 1px solid var(--color-error-500);
+  background-color: var(--color-error-50);
+  border-radius: var(--radius-lg);
+  color: var(--color-error-700);
+  font-size: var(--text-sm);
+  padding: var(--space-3);
+}

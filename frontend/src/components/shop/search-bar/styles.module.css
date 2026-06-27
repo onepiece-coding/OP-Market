@@ -1,0 +1,13 @@
+/**
+ * @file src/components/shop/search-bar/styles.module.css
+ */
+
+.form {
+  margin-bottom: var(--space-8);
+  gap: var(--space-3);
+  display: flex;
+}
+
+.inputWrapper {
+  flex: 1;
+}

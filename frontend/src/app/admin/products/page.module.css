@@ -1,0 +1,22 @@
+/**
+ * @file src/app/admin/products/page.module.css
+ */
+
+.thumbnailImage {
+  object-fit: cover;
+}
+
+.nameCell {
+  font-weight: var(--font-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+}
+
+.tagsCell {
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  max-width: 200px;
+  overflow: hidden;
+}

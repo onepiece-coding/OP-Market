@@ -1,0 +1,36 @@
+/**
+ * @file src/app/(shop)/profile/profile-view.module.css
+ */
+
+.page {
+  padding-block: var(--space-10);
+}
+
+.title {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-3xl);
+}
+
+.layout {
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  /* max-width: 640px; */
+  display: grid;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+  }
+}
+
+.section {
+  flex-direction: column;
+  display: flex;
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-5);
+  font-size: var(--text-lg);
+}

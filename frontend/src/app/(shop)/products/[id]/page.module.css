@@ -1,0 +1,102 @@
+/**
+ * @file src/app/(shop)/products/[id]/page.module.css
+ */
+
+.page {
+  padding-block: var(--space-10);
+}
+
+.grid {
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+.imageWrapper {
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-xl);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  color: var(--color-neutral-400);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.details {
+  flex-direction: column;
+  display: flex;
+}
+
+.name {
+  font-size: var(--text-3xl);
+}
+
+.price {
+  font-weight: var(--font-bold);
+  font-size: var(--text-2xl);
+  margin-top: var(--space-2);
+  color: var(--color-primary);
+}
+
+.description {
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  margin-top: var(--space-5);
+}
+
+.tagList {
+  margin-top: var(--space-5);
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.tag {
+  background-color: var(--color-surface-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* ── Loading skeleton ───────────────────── */
+
+.skeletonLine {
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+  height: 1rem;
+  width: 100%;
+}
+
+.skeletonTitle {
+  height: 2rem;
+  width: 70%;
+}
+
+.skeletonPrice {
+  width: 30%;
+}
+
+.skeletonShort {
+  width: 45%;
+}

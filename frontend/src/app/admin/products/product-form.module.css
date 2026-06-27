@@ -1,0 +1,151 @@
+/**
+ * @file src/app/admin/products/product-form.module.css
+ */
+
+.form {
+  flex-direction: column;
+  gap: var(--space-5);
+  display: flex;
+}
+
+.formError {
+  border: 1px solid var(--color-error-500);
+  background-color: var(--color-error-50);
+  border-radius: var(--radius-lg);
+  color: var(--color-error-700);
+  font-size: var(--text-sm);
+  padding: var(--space-3);
+}
+
+.row {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  display: grid;
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  flex-direction: column;
+  gap: var(--space-1-5);
+  display: flex;
+}
+
+.label {
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  display: block;
+}
+
+.required {
+  color: var(--color-error-500);
+  font-size: var(--text-xs);
+}
+
+.textarea {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  width: 100%;
+}
+
+.textarea:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.textarea.hasError {
+  border-color: var(--color-error-500);
+}
+
+.fieldError {
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+  color: var(--color-error-600);
+  font-size: var(--text-xs);
+}
+
+.imageField {
+  flex-direction: column;
+  gap: var(--space-2);
+  display: flex;
+}
+
+.imageRow {
+  align-items: center;
+  gap: var(--space-4);
+  display: flex;
+}
+
+.imagePreview {
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  overflow: hidden;
+  height: 72px;
+  width: 72px;
+}
+
+.previewImg {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.imagePlaceholder {
+  color: var(--color-neutral-400);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.imageControls {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  display: flex;
+}
+
+/* Visually hidden, but still focusable/clickable via the ref'd button —
+   same "accessible but invisible" idea as the .sr-only utility in
+   globals.css, scoped locally since we need it on an <input>. */
+.hiddenInput {
+  pointer-events: none;
+  white-space: nowrap;
+  position: absolute;
+  overflow: hidden;
+  height: 1px;
+  opacity: 0;
+  width: 1px;
+}
+
+.imageHint {
+  color: var(--color-text-subtle);
+  font-size: var(--text-xs);
+}
+
+.actions {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-5);
+  margin-top: var(--space-2);
+  justify-content: flex-end;
+  gap: var(--space-3);
+  display: flex;
+}

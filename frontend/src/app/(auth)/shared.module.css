@@ -1,0 +1,34 @@
+/**
+ * @file src/app/(auth)/shared.module.css
+ */
+
+.title {
+  font-size: var(--text-2xl);
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.footer {
+  color: var(--color-text-muted);
+  margin-top: var(--space-6);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.link {
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,28 @@
+/**
+ * @file src/app/loading.module.css
+*/
+
+.container {
+  background-color: var(--color-bg);
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 100vh;
+  display: flex;
+}
+
+.spinner {
+  animation: var(--animation-spin) 0.7s linear infinite;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  height: 48px;
+  width: 48px;
+}
+
+.text {
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}

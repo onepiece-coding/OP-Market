@@ -1,0 +1,20 @@
+/**
+ * @file src/app/admin/layout.module.css
+ */
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+}
+
+.main {
+  padding: var(--space-8);
+  min-width: 0;
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    padding: var(--space-8) var(--space-4);
+  }
+}

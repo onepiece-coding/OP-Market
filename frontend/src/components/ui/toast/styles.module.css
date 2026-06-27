@@ -1,0 +1,88 @@
+/**
+ * @file src/components/ui/toast/styles.module.css
+ */
+
+.toast {
+  animation: var(--animation-slide-in-right) var(--transition-slow) forwards;
+  border-left: 4px solid var(--color-neutral-300);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-4);
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 360px;
+  display: flex;
+  width: 100%;
+}
+
+.dismissing {
+  animation: var(--animation-slide-out-right) var(--transition-slow) forwards;
+}
+
+.icon {
+  margin-top: var(--space-0-5);
+  flex-shrink: 0;
+}
+
+.message {
+  line-height: var(--leading-snug);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  flex: 1;
+}
+
+.closeButton {
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-md);
+  justify-content: center;
+  padding: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: none;
+}
+
+.success {
+  border-left-color: var(--color-success-500);
+}
+
+.success .icon {
+  color: var(--color-success-600);
+}
+
+.error {
+  border-left-color: var(--color-error-500);
+}
+
+.error .icon {
+  color: var(--color-error-600);
+}
+
+.warning {
+  border-left-color: var(--color-warning-500);
+}
+
+.warning .icon {
+  color: var(--color-warning-600);
+}
+
+.info {
+  border-left-color: var(--color-primary-400);
+}
+
+.info .icon {
+  color: var(--color-primary-600);
+}
+
+@media (hover: hover) {
+  .closeButton:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}

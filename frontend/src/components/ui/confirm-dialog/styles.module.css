@@ -1,0 +1,44 @@
+/**
+ * @file src/components/ui/confirm-dialog/styles.module.css
+ */
+
+.backdrop {
+  animation: var(--animation-fade-in) var(--transition-normal);
+  background-color: rgb(0 0 0 / 0.5);
+  z-index: var(--z-modal);
+  position: fixed;
+  inset: 0;
+}
+
+.dialog {
+  animation: var(--animation-fade-in-up) var(--transition-normal);
+  background-color: var(--color-surface);
+  width: calc(100vw - var(--space-8));
+  z-index: calc(var(--z-modal) + 1);
+  border-radius: var(--radius-2xl);
+  transform: translate(-50%, -50%);
+  box-shadow: var(--shadow-2xl);
+  padding: var(--space-6);
+  max-width: 400px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+.title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.message {
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.actions {
+  justify-content: flex-end;
+  margin-top: var(--space-6);
+  gap: var(--space-3);
+  display: flex;
+}

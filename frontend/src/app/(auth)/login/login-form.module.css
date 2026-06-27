@@ -1,0 +1,41 @@
+/**
+ * @file src/app/(auth)/login/login-form.module.css
+ */
+
+.form {
+  flex-direction: column;
+  gap: var(--space-5);
+  display: flex;
+}
+
+.formError {
+  border: 1px solid var(--color-error-500);
+  background-color: var(--color-error-50);
+  border-radius: var(--radius-lg);
+  color: var(--color-error-700);
+  font-size: var(--text-sm);
+  padding: var(--space-3);
+}
+
+.resendInline {
+  border-top: 1px solid var(--color-error-500);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+}
+
+.forgotPassword {
+  margin-top: calc(-1 * var(--space-2));
+  justify-content: flex-end;
+  display: flex;
+}
+
+.forgotLink {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (hover: hover) {
+  .forgotLink:hover {
+    color: var(--color-primary);
+  }
+}

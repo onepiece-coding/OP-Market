@@ -1,0 +1,18 @@
+/**
+ * @file src/app/admin/not-found.module.css
+ */
+
+.container {
+  padding-block: var(--space-16);
+  text-align: center;
+}
+
+.title {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-2xl);
+}
+
+.description {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}

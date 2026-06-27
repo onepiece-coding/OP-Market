@@ -1,0 +1,199 @@
+/**
+ * @file src/components/admin/admin-sidebar/styles.module.css
+ */
+
+.sidebar {
+  border-right: 1px solid var(--color-border);
+  transition: width var(--transition-normal);
+  background-color: var(--color-surface);
+  padding: var(--space-6) var(--space-4);
+  flex-direction: column;
+  position: sticky;
+  flex-shrink: 0;
+  height: 100vh;
+  display: flex;
+  width: 240px;
+  top: 0;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    padding: var(--space-4) var(--space-2);
+    align-items: center;
+    width: 4rem;
+  }
+}
+
+.header {
+  padding-inline: var(--space-2);
+  margin-bottom: var(--space-8);
+  align-items: center;
+  gap: var(--space-2);
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-inline: 0;
+  }
+}
+
+.logo {
+  font-weight: var(--font-extrabold);
+  font-size: var(--text-lg);
+  letter-spacing: -0.04em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logoText {
+  color: var(--color-text);
+}
+
+.logoAccent {
+  color: var(--color-primary);
+}
+
+/* Collapse to just "op" — "market" doesn't fit a 4.5rem rail. */
+@media (max-width: 1024px) {
+  .logoAccent {
+    display: none;
+  }
+}
+
+.adminBadge {
+  background-color: var(--color-primary-light);
+  padding: var(--space-0-5) var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--color-primary-700);
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 10px;
+}
+
+@media (max-width: 1024px) {
+  .adminBadge {
+    display: none;
+  }
+}
+
+.nav {
+  flex-direction: column;
+  gap: var(--space-1);
+  display: flex;
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .nav {
+    width: 100%;
+  }
+}
+
+.navLink {
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  padding: var(--space-3);
+  gap: var(--space-3);
+  align-items: center;
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .navLink {
+    justify-content: center;
+    padding: var(--space-3) 0;
+    gap: 0;
+  }
+}
+
+@media (hover: hover) {
+  .navLink:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}
+
+.navLinkActive {
+  background-color: var(--color-primary-light);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+  .navLabel {
+    display: none;
+  }
+}
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    width: 100%;
+  }
+}
+
+.userName {
+  font-weight: var(--font-medium);
+  padding-inline: var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .userName {
+    display: none;
+  }
+}
+
+.logoutButton {
+  transition: background-color var(--transition-fast);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  color: var(--color-error-600);
+  font-size: var(--text-sm);
+  padding: var(--space-3);
+  gap: var(--space-3);
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  border: none;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .logoutButton {
+    justify-content: center;
+    padding: var(--space-3) 0;
+    gap: 0;
+  }
+}
+
+@media (hover: hover) {
+  .logoutButton:hover {
+    background-color: var(--color-error-50);
+  }
+}
+
+@media (max-width: 1024px) {
+  .logoutLabel {
+    display: none;
+  }
+}

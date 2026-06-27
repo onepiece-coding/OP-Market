@@ -1,0 +1,24 @@
+/**
+ * @file src/components/shop/product-grid-skeleton/styles.module.css
+ */
+
+.skeletonCard {
+  flex-direction: column;
+  gap: var(--space-2);
+  display: flex;
+}
+
+.skeletonImage {
+  border-radius: var(--radius-lg);
+  aspect-ratio: 1 / 1;
+}
+
+.skeletonLine {
+  height: 14px;
+  width: 80%;
+}
+
+.skeletonLineShort {
+  height: 14px;
+  width: 40%;
+}

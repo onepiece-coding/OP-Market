@@ -1,0 +1,13 @@
+/**
+ * @file src/app/(shop)/profile/profile-form.module.css
+ */
+
+.form {
+  flex-direction: column;
+  gap: var(--space-5);
+  display: flex;
+}
+
+.submitButton {
+  align-self: flex-start;
+}

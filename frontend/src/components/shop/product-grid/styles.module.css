@@ -1,0 +1,9 @@
+/**
+ * @file src/components/shop/ProductGrid/ProductGrid.module.css
+ */
+
+.emptyMessage {
+  padding-block: var(--space-12);
+  color: var(--color-text-muted);
+  text-align: center;
+}

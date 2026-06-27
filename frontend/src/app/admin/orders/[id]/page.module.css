@@ -1,0 +1,141 @@
+/**
+ * @file src/app/admin/orders/[id]/page.module.css
+ */
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.grid {
+  grid-template-columns: 1fr;
+  margin-top: var(--space-6);
+  gap: var(--space-6);
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.column {
+  flex-direction: column;
+  gap: var(--space-6);
+  display: flex;
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.customerName {
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.customerEmail {
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.customerLink {
+  color: var(--color-primary);
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  display: inline-block;
+}
+
+@media (hover: hover) {
+  .customerLink:hover {
+    text-decoration: underline;
+  }
+}
+
+.address {
+  line-height: var(--leading-relaxed);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.detailList {
+  flex-direction: column;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.detailRow {
+  justify-content: space-between;
+  gap: var(--space-4);
+  display: flex;
+}
+
+.detailLabel {
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.detailValue {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  text-align: right;
+}
+
+.itemList {
+  flex-direction: column;
+  gap: var(--space-2);
+  display: flex;
+}
+
+.itemRow {
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  display: flex;
+}
+
+.itemQty {
+  color: var(--color-text-muted);
+}
+
+.emptyItems {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.totalRow {
+  border-top: 1px solid var(--color-border);
+  font-weight: var(--font-semibold);
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+  display: flex;
+}
+
+.totalAmount {
+  color: var(--color-primary);
+}
+
+.timeline {
+  flex-direction: column;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.timelineItem {
+  align-items: center;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.timelineDate {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}

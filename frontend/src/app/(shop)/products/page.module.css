@@ -1,0 +1,19 @@
+/**
+ * @file src/app/(shop)/products/page.module.css
+ */
+
+.page {
+  padding-block: var(--space-10);
+}
+
+.title {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-3xl);
+}
+
+.loadingTitle {
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+  height: 2.25rem;
+  width: 240px;
+}

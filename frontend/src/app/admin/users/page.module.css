@@ -1,0 +1,22 @@
+/**
+ * @file src/app/admin/users/page.module.css
+ */
+
+.nameCell {
+  font-weight: var(--font-medium);
+}
+
+.emailCell {
+  color: var(--color-text-muted);
+}
+
+.verifiedYes {
+  color: var(--color-success-600);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+}
+
+.verifiedNo {
+  color: var(--color-text-subtle);
+  font-size: var(--text-sm);
+}

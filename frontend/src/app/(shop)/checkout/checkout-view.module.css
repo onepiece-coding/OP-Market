@@ -1,0 +1,188 @@
+/**
+ * @file src/app/(shop)/checkout/CheckoutView.module.css
+ */
+
+.page {
+  padding-block: var(--space-10);
+}
+
+.title {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-3xl);
+}
+
+.layout {
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  display: grid;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.paymentMethods {
+  flex-direction: column;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.paymentOption {
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  display: flex;
+}
+
+@media (hover: hover) {
+  .paymentOption:hover {
+    background-color: var(--color-surface-2);
+  }
+}
+
+.paymentOptionSelected {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+/* Visually hidden (not display:none — that would remove it from the tab
+   order entirely, breaking keyboard users), styled via its sibling below. */
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.radioIndicator {
+  transition: border-color var(--transition-fast);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-full);
+  position: relative;
+  height: 1.25rem;
+  flex-shrink: 0;
+  width: 1.25rem;
+}
+
+.radioInput:checked + .radioIndicator {
+  border-color: var(--color-primary);
+}
+
+.radioInput:checked + .radioIndicator::after {
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  position: absolute;
+  height: 0.75rem;
+  width: 0.75rem;
+  content: "";
+  left: 2px;
+  top: 2px;
+}
+
+.radioInput:focus-visible + .radioIndicator {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.paymentInfo {
+  flex-direction: column;
+  gap: var(--space-0-5);
+  display: flex;
+}
+
+.paymentLabel {
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.paymentDescription {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.placeOrderButton {
+  margin-top: var(--space-6);
+}
+
+.summary {
+  top: calc(var(--header-height) + var(--space-6));
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  position: sticky;
+}
+
+.summaryTitle {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.summaryItems {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-direction: column;
+  gap: var(--space-3);
+  display: flex;
+}
+
+.summaryItem {
+  justify-content: space-between;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  gap: var(--space-3);
+  display: flex;
+}
+
+.summaryItemName {
+  flex: 1;
+}
+
+.summaryItemQty {
+  color: var(--color-text-subtle);
+}
+
+.summaryRow {
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  display: flex;
+}
+
+.summaryTotal {
+  font-weight: var(--font-bold);
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.skeletonTitle {
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-8);
+  height: 2.5rem;
+  width: 180px;
+}
+
+.skeletonPayment {
+  border-radius: var(--radius-xl);
+  height: 280px;
+}
+
+.skeletonSummary {
+  border-radius: var(--radius-xl);
+  height: 240px;
+}

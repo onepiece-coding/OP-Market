@@ -1,0 +1,13 @@
+/**
+ * @file src/app/(shop)/layout.module.css
+ */
+
+.shell {
+  flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+}
+
+.main {
+  flex: 1 0 auto;
+}
