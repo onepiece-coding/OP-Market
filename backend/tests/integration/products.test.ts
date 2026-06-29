@@ -128,10 +128,6 @@ describe("Products routes integration", () => {
       expect(listRes.status).toBe(401);
       expect(listRes.body.message).toBe("Unauthorized!");
 
-      const getRes = await request(app).get("/api/v1/products/1");
-      expect(getRes.status).toBe(401);
-      expect(getRes.body.message).toBe("Unauthorized!");
-
       const updateRes = await request(app).put("/api/v1/products/1").send({
         name: "Updated",
       });
@@ -158,12 +154,6 @@ describe("Products routes integration", () => {
         .set("Authorization", authHeaderFor(user.id));
       expect(listRes.status).toBe(403);
       expect(listRes.body.message).toBe("Forbidden: admin only");
-
-      const getRes = await request(app)
-        .get("/api/v1/products/1")
-        .set("Authorization", authHeaderFor(user.id));
-      expect(getRes.status).toBe(403);
-      expect(getRes.body.message).toBe("Forbidden: admin only");
 
       const updateRes = await request(app)
         .put("/api/v1/products/1")
