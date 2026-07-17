@@ -181,7 +181,7 @@ export const listOrdersCtrl = asyncHandler(
         userId: req.user!.id,
       },
       include: {
-        products: true,
+        products: true, // only returns productId and quantity
       },
     });
 

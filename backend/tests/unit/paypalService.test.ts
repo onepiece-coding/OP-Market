@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-
+// global error
 const secretsPath = "../../src/config/secrets.js";
 const paypalServicePath = "../../src/services/paypalService.js";
 
@@ -27,7 +27,7 @@ async function loadPayPalService(overrides: Partial<SecretsMock> = {}) {
 }
 
 describe("paypalService", () => {
-  const originalFetch = global.fetch;
+  const originalFetch = global.fetch; // *
 
   afterEach(() => {
     vi.clearAllMocks();
