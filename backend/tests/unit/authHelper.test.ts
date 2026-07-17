@@ -170,7 +170,7 @@ describe("authHelper", () => {
         to: "mina@example.com",
         subject: "Verify your email",
         html: expect.stringContaining(
-          "https://example.com/api/v1/auth/verify-email?token=token%20123",
+          "http://localhost:3000/verify-email?token=token%20123",
         ),
       }),
     );
