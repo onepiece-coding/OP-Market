@@ -1,7 +1,6 @@
 import { Request } from "express";
 import { prismaClient } from "../db/prisma.js";
 import crypto from "crypto";
-import { ALLOWED_ORIGIN } from "../config/secrets.js";
 import sendEmail from "../services/emailService.js";
 import {
   compareTokenHash,
@@ -251,11 +250,7 @@ export const sendPasswordResetEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:3000").replace(
-    /\/$/,
-    "",
-  );
-  const resetUrl = `${frontendBase}/reset-password?token=${encodeURIComponent(rawToken)}`;
+  const resetUrl = `http://localhost:3000/op-market-shop/reset-password?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,
