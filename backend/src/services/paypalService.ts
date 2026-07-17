@@ -1,5 +1,4 @@
 import {
-  ALLOWED_ORIGIN,
   PAYPAL_CLIENT_ID,
   PAYPAL_CLIENT_SECRET,
   PAYPAL_ENV,
@@ -23,7 +22,7 @@ const assertPayPalConfig = () => {
 };
 
 const buildFrontendUrl = (path: string, orderId: number) => {
-  const url = new URL(path, ALLOWED_ORIGIN);
+  const url = new URL(path, "http://localhost:3000/op-market-shop");
   url.searchParams.set("orderId", String(orderId));
   return url.toString();
 };
