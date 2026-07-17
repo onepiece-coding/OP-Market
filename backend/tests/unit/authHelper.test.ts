@@ -47,7 +47,7 @@ async function loadAuthHelper() {
   }));
 
   vi.doMock(secretsPath, () => ({
-    ALLOWED_ORIGIN: "http://localhost:3000/",
+    ALLOWED_ORIGIN: "http://localhost:3000/op-market-shop",
   }));
 
   const mod = await import(authHelperPath);
@@ -170,7 +170,7 @@ describe("authHelper", () => {
         to: "mina@example.com",
         subject: "Verify your email",
         html: expect.stringContaining(
-          "http://localhost:3000/verify-email?token=token%20123",
+          "http://localhost:3000/op-market-shop/verify-email?token=token%20123",
         ),
       }),
     );
@@ -190,7 +190,7 @@ describe("authHelper", () => {
         to: "mina@example.com",
         subject: "Reset your password",
         html: expect.stringContaining(
-          "http://localhost:3000/reset-password?token=reset%2Ftoken",
+          "http://localhost:3000/op-market-shop/reset-password?token=reset%2Ftoken",
         ),
       }),
     );

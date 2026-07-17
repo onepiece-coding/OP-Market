@@ -19,7 +19,7 @@ async function loadPayPalService(overrides: Partial<SecretsMock> = {}) {
     PAYPAL_CLIENT_SECRET: "client-secret",
     PAYPAL_ENV: "sandbox",
     PAYPAL_CURRENCY: "USD",
-    ALLOWED_ORIGIN: "http://localhost:3000",
+    ALLOWED_ORIGIN: "http://localhost:3000/op-market-shop",
     ...overrides,
   }));
 
@@ -124,9 +124,9 @@ describe("paypalService", () => {
         ],
         application_context: {
           return_url:
-            "http://localhost:3000/checkout/paypal/return?orderId=123",
+            "http://localhost:3000/op-market-shop/checkout/paypal/return?orderId=123",
           cancel_url:
-            "http://localhost:3000/checkout/paypal/cancel?orderId=123",
+            "http://localhost:3000/op-market-shop/checkout/paypal/cancel?orderId=123",
         },
       }),
     });

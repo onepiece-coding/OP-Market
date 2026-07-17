@@ -65,7 +65,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/testdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
       BREVO_API_KEY: undefined,
       FROM_EMAIL: undefined,
       CLOUDINARY_CLOUD_NAME: undefined,
@@ -83,7 +83,7 @@ describe("config/env", () => {
     );
     expect(mod.env.JWT_SECRET).toBe("a".repeat(32));
     expect(mod.env.REFRESH_TOKEN_SECRET).toBe("b".repeat(32));
-    expect(mod.env.CLIENT_DOMAIN).toBe("http://localhost:3000");
+    expect(mod.env.CLIENT_DOMAIN).toBe("http://localhost:3000/op-market-shop");
   });
 
   it("applies defaults for PORT, token expirations, EMAIL_TIMEOUT_MS, APP_NAME, PAYPAL_ENV, and PAYPAL_CURRENCY", async () => {
@@ -92,7 +92,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/testdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
       PORT: undefined,
       ACCESS_TOKEN_EXPIRES_IN: undefined,
       REFRESH_TOKEN_EXPIRES_IN: undefined,
@@ -141,7 +141,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/testdb",
       JWT_SECRET: "short",
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
     });
 
     await expect(loadEnvModule()).rejects.toThrow(
@@ -155,7 +155,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/testdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "short",
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
     });
 
     await expect(loadEnvModule()).rejects.toThrow(
@@ -169,7 +169,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/appdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
       BREVO_API_KEY: "",
       FROM_EMAIL: "test@example.com",
       CLOUDINARY_CLOUD_NAME: "cloud",
@@ -190,7 +190,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/appdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
       BREVO_API_KEY: "brevo-key",
       FROM_EMAIL: "test@example.com",
       CLOUDINARY_CLOUD_NAME: "",
@@ -211,7 +211,7 @@ describe("config/env", () => {
       DATABASE_URL: "postgresql://user:pass@localhost:5432/appdb",
       JWT_SECRET: "a".repeat(32),
       REFRESH_TOKEN_SECRET: "b".repeat(32),
-      CLIENT_DOMAIN: "http://localhost:3000",
+      CLIENT_DOMAIN: "http://localhost:3000/op-market-shop",
       BREVO_API_KEY: "brevo-key",
       FROM_EMAIL: "test@example.com",
       CLOUDINARY_CLOUD_NAME: "cloud",

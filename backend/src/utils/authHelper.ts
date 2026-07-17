@@ -230,7 +230,7 @@ export const sendVerificationEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const verificationUrl = `http://localhost:3000/verify-email?token=${encodeURIComponent(rawToken)}`;
+  const verificationUrl = `http://localhost:3000/op-market-shop/verify-email?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,
