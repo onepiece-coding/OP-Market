@@ -302,7 +302,13 @@ export const listAllOrdersCtrl = asyncHandler(
       where: whereClause,
       skip,
       take: limit,
-      include: orderProductInclude,
+      include: {
+        user: {
+          omit: {
+            password: true, // Hides the password field from the user object
+          },
+        },
+      },
     });
 
     const pageCount = Math.ceil(total / limit);
