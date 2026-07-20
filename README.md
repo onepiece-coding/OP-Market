@@ -123,6 +123,14 @@ The backend exposes the API under `/api`.
 - Handle PayPal approval redirect and capture callback.
 - Use retry payment flow for unpaid orders.
 
+**Test credentials**
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@email.com | Pass@1234 |
+| User | user@email.com | Pass@1234 |
+| Paypal | sb-jm1bo50147124@personal.example.com | H!we}8,k |
+
 ## License
 
 ISC
