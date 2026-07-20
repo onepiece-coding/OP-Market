@@ -407,7 +407,7 @@ describe("productsController", () => {
           mimetype: "image/png",
           originalname: "new.png",
         },
-      } as TestRequest as Request;
+      } as unknown as Request;
 
       const res = createRes();
 
@@ -453,7 +453,7 @@ describe("productsController", () => {
         file: {
           buffer: Buffer.from("img"),
         },
-      } as TestRequest as Request;
+      } as unknown as Request;
 
       const res = createRes();
 
@@ -498,7 +498,7 @@ describe("productsController", () => {
         file: {
           buffer: Buffer.from("img"),
         },
-      } as TestRequest as Request;
+      } as unknown as Request;
 
       const res = createRes();
 
@@ -541,7 +541,7 @@ describe("productsController", () => {
         file: {
           buffer: Buffer.from("img"),
         },
-      } as TestRequest as Request;
+      } as unknown as Request;
 
       const res = createRes();
 
@@ -580,7 +580,7 @@ describe("productsController", () => {
         file: {
           buffer: Buffer.from("img"),
         },
-      } as TestRequest as Request;
+      } as unknown as Request;
 
       const res = createRes();
 
