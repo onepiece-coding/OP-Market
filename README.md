@@ -1,6 +1,6 @@
 # OP Market
 
-OP Market is a full-stack ecommerce application.
+OP Market is a full-stack ecommerce application built with a zero-dependency philosophy on the frontend: the React app ships with only `react`, `react-dom`, and `react-router-dom` as runtime dependencies — every other system (caching, forms, modals, toasts) is built from scratch, paired with a secure Express and PostgreSQL backend.
 
 ## Tech Stack
 
@@ -18,7 +18,12 @@ OP Market is a full-stack ecommerce application.
 
 ### Frontend
 
-- Frontend stack to be added later
+- React
+- TypeScript
+- Vite
+- React Router
+- CSS Modules
+- Zero UI/state/data-fetching libraries — custom-built caching, forms, and component system
 
 ## Project Structure
 
@@ -42,11 +47,9 @@ op-market/
 
 ## Frontend Features
 
-Frontend files will be added later.
+### Pages
 
-### Pages to implement
-
-- Home
+- Home / Shop (search, pagination)
 - Product listing
 - Product details
 - Cart
@@ -54,22 +57,27 @@ Frontend files will be added later.
 - Login
 - Signup
 - Email verification
+- Resend verification
 - Forgot password
 - Reset password
-- Profile
-- Orders
+- Profile (account info, saved addresses)
+- Orders (order history, cancel, retry payment)
 - Admin dashboard
+  - Products (create, edit, delete, image upload)
+  - Orders (status management, filtering)
+  - Users (role management)
 
-### Components to implement
+### Components
 
-- Navbar
+- Navbar / Header (with live cart badge, mobile menu)
 - Footer
 - Product card
-- Cart item
-- Order summary
-- Payment buttons
-- Auth forms
-- Admin forms
+- Cart item row
+- Order summary / order card
+- Payment method selector
+- Auth forms (login, signup, forgot/reset password)
+- Admin forms (product form, confirm dialogs)
+- Shared UI kit: Button, Input, Select, Spinner, Modal, Toast, Icon system, Pagination, Status/Role badges
 
 ## Environment Variables
 
@@ -79,7 +87,9 @@ See `backend/.env.example` or `backend/README.md`.
 
 ### Frontend
 
-To be added later.
+| Variable | Description |
+|---|---|
+| `VITE_API_BASE_URL` | The backend API's base URL, including `/api/v1` (e.g. `http://localhost:8000/api/v1`) |
 
 ## Local Development
 
@@ -93,7 +103,13 @@ npm run dev
 
 ### 2. Start the frontend
 
-To be added later.
+```bash
+cd frontend-react
+npm install
+npm run dev
+```
+
+The frontend will be running at `http://localhost:3000`.
 
 ## API
 
