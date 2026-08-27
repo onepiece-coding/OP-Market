@@ -12,7 +12,7 @@ type TestUser = {
   defaultShippingAddress?: number | null;
 };
 
-type TestRequest = Partial<Request> & {
+type TestRequest = {
   body?: Record<string, unknown>;
   params?: Record<string, string>;
   query?: Record<string, unknown>;

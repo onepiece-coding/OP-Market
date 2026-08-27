@@ -110,8 +110,7 @@ describe("authMiddleware", () => {
     const req = {
       cookies: { accessToken: "bad.jwt" },
       headers: {},
-    } as Request;
-
+    } as unknown as Request;
     const res = {} as Response;
     const next = vi.fn();
 
@@ -138,7 +137,7 @@ describe("authMiddleware", () => {
     const req = {
       cookies: { accessToken: "valid.jwt" },
       headers: {},
-    } as Request;
+    } as unknown as Request;
 
     const res = {} as Response;
     const next = vi.fn();
@@ -173,7 +172,7 @@ describe("authMiddleware", () => {
     const req = {
       cookies: { accessToken: "valid.jwt" },
       headers: {},
-    } as AuthenticatedRequest;
+    } as unknown as AuthenticatedRequest;
 
     const res = {} as Response;
     const next = vi.fn();

@@ -11,9 +11,10 @@ type TestUser = {
   role?: "ADMIN" | "USER";
 };
 
-type TestRequest = Partial<Request> & {
+type TestRequest = {
   body?: Record<string, unknown>;
   params?: Record<string, string>;
+  query?: Record<string, unknown>;
   user?: TestUser;
 };
 
